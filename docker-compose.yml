@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Database container utilizing official PostgreSQL configurations image
+  db:
+    image: postgres:15-alpine
+    container_name: cyberzone_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password_123
+      POSTGRES_DB: cyberzone_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Express REST API backend service container
+  backend:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile.backend
+    container_name: cyberzone_api_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres_password_123@db:5432/cyberzone_db?schema=public
+      - JWT_SECRET=access_token_secret_key_999_change_in_production
+      - JWT_REFRESH_SECRET=refresh_token_secret_key_888_change_in_production
+    depends_on:
+      - db
+    volumes:
+      - uploads_volume:/app/server/uploads
+
+volumes:
+  pgdata:
+  uploads_volume:
