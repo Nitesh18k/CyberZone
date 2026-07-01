@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - Cyber Zone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <style>
+        .profile-container-standalone {
+            max-width: 600px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .profile-avatar-large {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+            margin-bottom: 16px;
+        }
+
+        .profile-header-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-header-role {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group-standalone {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group-standalone label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group-standalone input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            outline: none;
+            background: #f8fafc;
+            transition: border var(--transition-fast);
+        }
+
+        .form-group-standalone input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .btn-update-profile {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+            margin-top: 10px;
+        }
+
+        .btn-update-profile:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='../index.html'">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-user-area" id="nav-user-box"></div>
+    </nav>
+
+    <div class="profile-container-standalone">
+        <div class="profile-card">
+            <img src="../assets/images/profile.png" alt="Avatar" class="profile-avatar-large">
+            <div class="profile-header-name" id="user-display-name">Visitor User</div>
+            <div class="profile-header-role" id="user-display-role">Viewer Role</div>
+            
+            <form id="standalone-profile-form">
+                <div class="form-group-standalone">
+                    <label>Full Name</label>
+                    <input type="text" id="edit-name" required></input>
+                </div>
+                <div class="form-group-standalone">
+                    <label>Email Address (Read Only)</label>
+                    <input type="email" id="edit-email" readonly style="background:#f1f5f9; cursor:not-allowed;">
+                </div>
+                <div class="form-group-standalone">
+                    <label>Change Password</label>
+                    <input type="password" id="edit-password" placeholder="Enter new password (optional)">
+                </div>
+                <button type="submit" class="btn-update-profile">Save Profile Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/theme.js"></script>
+    <script>
+        const user = db.getCurrentUser();
+        
+        // Routing logic
+        if (!user) {
+            alert('Please login to view your profile.');
+            window.location.href = 'login.html';
+        } else if (user.role === 'Admin' || user.role === 'Editor') {
+            // Admins & Editors manage profile inside unified dashboard.html
+            window.location.href = 'dashboard.html?tab=profile';
+        } else {
+            // Viewer profile rendering
+            document.getElementById('user-display-name').textContent = user.name;
+            document.getElementById('user-display-role').textContent = `${user.role} Account`;
+            document.getElementById('edit-name').value = user.name;
+            document.getElementById('edit-email').value = user.email;
+        }
+
+        document.getElementById('standalone-profile-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('edit-name').value;
+            const password = document.getElementById('edit-password').value;
+
+            const updates = { name };
+            if (password) {
+                if (password.length < 6) {
+                    showToast('Password must be at least 6 characters.', 'danger');
+                    return;
+                }
+                updates.password = password;
+            }
+
+            const res = db.updateUser(user.id, updates);
+            if (res.success) {
+                showToast('Your settings have been saved successfully!', 'success');
+                // Sync session storage
+                const sessionUser = { id: user.id, name, email: user.email, role: user.role };
+                sessionStorage.setItem('cyberzone_session', JSON.stringify(sessionUser));
+                
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                showToast(res.error, 'danger');
+            }
+        });
+    </script>
+</body>
+</html>

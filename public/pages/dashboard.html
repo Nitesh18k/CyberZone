@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Cyber Zone</title>
+    
+    <!-- fontawesome & boxicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- theme CSS & db JS -->
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Dashboard Page Specific Styles */
+        body {
+            background-color: var(--bg-main);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 72px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 72px;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            gap: 8px;
+            z-index: 99;
+            transition: left var(--transition-normal);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast), color var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .sidebar-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-item i {
+            font-size: 18px;
+        }
+
+        /* Main Content View */
+        .content-panel {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px 40px;
+            overflow-y: auto;
+            transition: margin var(--transition-normal);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .page-title p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 8px;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-card.success .stat-icon {
+            background: #e6f6ec;
+            color: var(--success);
+        }
+
+        .stat-card.warning .stat-icon {
+            background: #fef9e7;
+            color: var(--warning);
+        }
+
+        .stat-card.danger .stat-icon {
+            background: #fdf2f2;
+            color: var(--danger);
+        }
+
+        /* Analytics Grid */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Layout Panels */
+        .dashboard-tab {
+            display: none;
+        }
+
+        .dashboard-tab.active-tab {
+            display: block;
+            animation: fadeInTab 0.3s ease-in-out;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tables styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-top: 16px;
+            background: #ffffff;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 14px 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* Buttons & Actions */
+        .btn-action {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background var(--transition-fast);
+        }
+
+        .btn-action:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-active { background: #e6f6ec; color: var(--success); }
+        .badge-inactive { background: #fdf2f2; color: var(--danger); }
+        .badge-admin { background: var(--primary-light); color: var(--primary); }
+        .badge-editor { background: #f1f5f9; color: var(--text-secondary); }
+        .badge-viewer { background: #fdf2f2; color: #7f1d1d; }
+
+        /* Search / Filters Bar */
+        .table-filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-inputs {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .filter-inputs input,
+        .filter-inputs select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            outline: none;
+            background: #ffffff;
+        }
+
+        .filter-inputs input:focus,
+        .filter-inputs select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Pagination style */
+        .pagination-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: background var(--transition-fast);
+        }
+
+        .pagination-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Settings Grid & Inputs */
+        .settings-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .settings-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            outline: none;
+            transition: border var(--transition-fast);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .toggle-switch:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toggle-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .toggle-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Checkbox Custom styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Drag & Drop File Container */
+        .upload-dragzone {
+            border: 2px dashed rgba(15, 98, 254, 0.2);
+            background: #fafcff;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: border var(--transition-fast), background var(--transition-fast);
+            margin-bottom: 24px;
+        }
+
+        .upload-dragzone:hover,
+        .upload-dragzone.dragover {
+            border-color: var(--primary);
+            background: #f4f8ff;
+        }
+
+        .upload-dragzone i {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .upload-dragzone p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Permissions Matrix Card */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .matrix-table th:first-child,
+        .matrix-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive Sidebar Override */
+        .menu-bar-btn {
+            display: none;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                left: -260px;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+            .content-panel {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            .menu-bar-btn {
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='../index.html'">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search logs/reports...">
+        </div>
+        <div class="navbar-user-area" id="nav-user-box">
+            <!-- Populated dynamically by theme.js / session check -->
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar-nav">
+            <a class="sidebar-item active" data-tab="tab-overview">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Overview & Charts</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-users" id="side-users">
+                <i class="fa-solid fa-users"></i>
+                <span>User Management</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-roles" id="side-roles">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Roles & Permissions</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-reports" id="side-reports">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>Reports Center</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-logs" id="side-logs">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span>Activity Audit Logs</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-notifications">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Notification Engine</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-upload" id="side-upload">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>File Upload Area</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-backup">
+                <i class="fa-solid fa-database"></i>
+                <span>Backup & Restore</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-profile">
+                <i class="fa-solid fa-user-gear"></i>
+                <span>Profile Settings</span>
+            </a>
+            <a class="sidebar-item" data-tab="tab-settings" id="side-settings">
+                <i class="fa-solid fa-sliders"></i>
+                <span>System Configuration</span>
+            </a>
+        </aside>
+
+        <!-- Main Panel -->
+        <main class="content-panel">
+            
+            <button class="menu-bar-btn" id="sidebar-toggle" style="margin-bottom: 16px;">
+                <i class="fa-solid fa-bars-staggered"></i> Menu
+            </button>
+
+            <!-- TAB 1: OVERVIEW -->
+            <section class="dashboard-tab active-tab" id="tab-overview">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Security Analytics Dashboard</h1>
+                        <p>Real-time telemetry, threat detection levels, and user activity.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Total Users</span>
+                            <span class="stat-value" id="stat-total-users">3</span>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-info">
+                            <span class="stat-label">Telemetry Visits</span>
+                            <span class="stat-value" id="stat-total-visits">12,540</span>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-info">
+                            <span class="stat-label">Reports Active</span>
+                            <span class="stat-value" id="stat-total-reports">3</span>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-file-shield"></i></div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-info">
+                            <span class="stat-label">Suspicious Event Alerts</span>
+                            <span class="stat-value" id="stat-total-files">2</span>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    </div>
+                </div>
+
+                <!-- Analytics Charts -->
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <span>Threat Incidents & Telemetry Tracking</span>
+                            <small class="badge badge-active">Live Feeds</small>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="telemetryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">System Log Auditing Types</div>
+                        <div class="chart-container">
+                            <canvas id="logsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Logs table -->
+                <div class="settings-card" style="padding: 20px;">
+                    <div class="chart-title" style="margin-bottom:12px;">Recent Security Logs</div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Audit Event</th>
+                                    <th>Performed By</th>
+                                    <th>Action Log Details</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overview-recent-logs">
+                                <!-- Dynamic logs here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: USER MANAGEMENT -->
+            <section class="dashboard-tab" id="tab-users">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>User Accounts & Directory</h1>
+                        <p>Modify role clearance matrices, register accounts, or suspend profiles.</p>
+                    </div>
+                    <button class="btn-action" onclick="openAddUserModal()">
+                        <i class="fa-solid fa-user-plus"></i> Add Account
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <div class="table-filter-bar">
+                        <div class="filter-inputs">
+                            <input type="text" id="user-search" placeholder="Search Name or Email..." oninput="renderUsersTable()">
+                            <select id="user-filter-role" onchange="renderUsersTable()">
+                                <option value="all">All Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Editor">Editor</option>
+                                <option value="Viewer">Viewer</option>
+                            </select>
+                            <select id="user-filter-status" onchange="renderUsersTable()">
+                                <option value="all">All Statuses</option>
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Assigned Role</th>
+                                    <th>Account Status</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Dynamic user lists -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-bar">
+                        <span id="users-page-info">Showing page 1 of 1</span>
+                        <div class="pagination-buttons">
+                            <button class="pagination-btn" id="users-btn-prev" disabled>Previous</button>
+                            <button class="pagination-btn" id="users-btn-next" disabled>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: ROLE & PERMISSION -->
+            <section class="dashboard-tab" id="tab-roles">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Role Access Policies</h1>
+                        <p>Configure permission matrices allowed per role category in the system.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Interactive Permission Assignment Grid</h3>
+                    <div class="table-responsive">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Module Screen Target</th>
+                                    <th>Admin Access</th>
+                                    <th>Editor Access</th>
+                                    <th>Viewer Access</th>
+                                </tr>
+                            </thead>
+                            <tbody id="role-matrix-body">
+                                <!-- Matrix dynamic check boxes -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:20px; display:flex; justify-content: flex-end;">
+                        <button class="btn-action" onclick="savePermissionMatrix()">
+                            <i class="fa-solid fa-circle-check"></i> Save Access Profiles
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: REPORTS CENTER -->
+            <section class="dashboard-tab" id="tab-reports">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Audit Reports Repository</h1>
+                        <p>Create and archive critical security posture documentation files.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card" style="margin-bottom:24px;">
+                    <h3>Generate New Automated Report</h3>
+                    <form id="report-form" style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;">
+                        <div class="form-group" style="flex:2; min-width:240px;">
+                            <label>Report Header Description Name</label>
+                            <input type="text" id="report-name" placeholder="e.g. Q2 Network Ingress Audit" required>
+                        </div>
+                        <div class="form-group" style="flex:1; min-width:140px;">
+                            <label>Report Classification Category</label>
+                            <select id="report-category">
+                                <option value="Security">Security</option>
+                                <option value="Threats">Threats</option>
+                                <option value="Audit">Audit</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-action" style="height:44px;"><i class="fa-solid fa-file-signature"></i> Create Document</button>
+                    </form>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Generated Document Log Archive</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Doc ID</th>
+                                    <th>Report Descriptor</th>
+                                    <th>Category</th>
+                                    <th>Generated On</th>
+                                    <th>Author</th>
+                                    <th>Status</th>
+                                    <th>File Export</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reports-table-body">
+                                <!-- Reports list dynamically injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: AUDIT LOGS -->
+            <section class="dashboard-tab" id="tab-logs">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>System Activity Audit Log</h1>
+                        <p>Historical telemetry trace of administrator and user interface events.</p>
+                    </div>
+                    <button class="btn-action btn-danger" onclick="clearSystemAuditLogs()">
+                        <i class="fa-solid fa-trash-can"></i> Purge Historical Archives
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <div class="table-filter-bar">
+                        <div class="filter-inputs">
+                            <input type="text" id="logs-search" placeholder="Search Audit Action..." oninput="renderLogsTable()">
+                            <select id="logs-filter-type" onchange="renderLogsTable()">
+                                <option value="all">All event types</option>
+                                <option value="System">System</option>
+                                <option value="Auth">Auth</option>
+                                <option value="Action">Action</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Log ID</th>
+                                    <th>Log Type</th>
+                                    <th>User Account</th>
+                                    <th>Action Log Details</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-table-body">
+                                <!-- Injected dynamic logs -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-bar">
+                        <span id="logs-page-info">Showing page 1 of 1</span>
+                        <div class="pagination-buttons">
+                            <button class="pagination-btn" id="logs-btn-prev" disabled>Previous</button>
+                            <button class="pagination-btn" id="logs-btn-next" disabled>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: NOTIFICATIONS ENGINE -->
+            <section class="dashboard-tab" id="tab-notifications">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>System Notification Engine</h1>
+                        <p>Trigger and manage dashboard wide banners or notification feed logs.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card" style="margin-bottom:24px;">
+                    <h3>Publish Custom System Alert Banner</h3>
+                    <form id="notification-form" style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;">
+                        <div class="form-group" style="flex:3; min-width:240px;">
+                            <label>Notification Message Text</label>
+                            <input type="text" id="noti-message" placeholder="Type notification banner text..." required>
+                        </div>
+                        <div class="form-group" style="flex:1; min-width:140px;">
+                            <label>Banner Alert Severity</label>
+                            <select id="noti-type">
+                                <option value="info">Info (Blue)</option>
+                                <option value="success">Success (Green)</option>
+                                <option value="warning">Warning (Yellow)</option>
+                                <option value="danger">Danger (Red)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-action" style="height:44px;"><i class="fa-solid fa-paper-plane"></i> Broadcast</button>
+                    </form>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Active System Notification History</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Severity Badge</th>
+                                    <th>Notification Details</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="notifications-table-body">
+                                <!-- dynamic notification logs -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: FILE UPLOAD AREA -->
+            <section class="dashboard-tab" id="tab-upload">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>File Storage Manager</h1>
+                        <p>Drag and Drop security certificates, maps, or reports into local database.</p>
+                    </div>
+                </div>
+
+                <!-- Drag zone -->
+                <div class="upload-dragzone" id="dropzone" onclick="document.getElementById('file-picker').click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Drag & Drop files here, or <b>Click to browse local files</b></p>
+                    <small style="color:var(--text-muted); font-size:12px; margin-top:8px; display:block;">Supports PDF, Images, JSON, and Text (Max 1MB simulated size)</small>
+                    <input type="file" id="file-picker" style="display:none;" onchange="handleFileSelected(event)">
+                </div>
+
+                <div class="settings-card">
+                    <h3>Stored Storage Artifact Log</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th>Uploaded On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files-table-body">
+                                <!-- dynamic files listing -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: DATABASE BACKUP -->
+            <section class="dashboard-tab" id="tab-backup">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Database Administration Backup & Import</h1>
+                        <p>Download client-side database JSON file backups or restore past system tables.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="settings-card">
+                        <h3>Create Backup Archive</h3>
+                        <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:20px;">
+                            Click the button below to download the complete contents of the simulated system database (including accounts, roles, logs, and notifications) as a JSON database snapshot file.
+                        </p>
+                        <button class="btn-action" onclick="downloadDatabaseBackup()"><i class="fa-solid fa-download"></i> Download JSON Snapshot</button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Restore Snapshot File</h3>
+                        <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:12px;">
+                            Select a previously exported Cyber Zone `.json` database file snapshot to restore accounts, roles, and configurations.
+                        </p>
+                        <div class="form-group" style="margin-bottom:16px;">
+                            <input type="file" id="backup-file-picker" accept=".json">
+                        </div>
+                        <button class="btn-action btn-secondary" onclick="restoreDatabaseBackup()"><i class="fa-solid fa-upload"></i> Upload & Restore State</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 9: PROFILE SETTINGS -->
+            <section class="dashboard-tab" id="tab-profile">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Account Profile Settings</h1>
+                        <p>Change your username, credentials, email parameters, and profile details.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Modify User Details</h3>
+                    <form id="profile-edit-form" style="margin-top:20px;">
+                        <div class="form-grid" style="margin-bottom:20px;">
+                            <div class="form-group">
+                                <label>Profile Name Descriptor</label>
+                                <input type="text" id="profile-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Assigned Email Address</label>
+                                <input type="email" id="profile-email" readonly style="background:#f1f5f9; cursor:not-allowed;">
+                            </div>
+                            <div class="form-group">
+                                <label>Modify Password</label>
+                                <input type="password" id="profile-password" placeholder="Enter new password (optional)">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-action"><i class="fa-solid fa-user-check"></i> Update Personal Profile</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 10: CONFIGURATION -->
+            <section class="dashboard-tab" id="tab-settings">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>System Global Settings</h1>
+                        <p>Configure parameters for registration permissions, audits alerts, and dashboard features.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Site Configuration Panel</h3>
+                    <div style="margin-top:20px;">
+                        <div class="toggle-switch">
+                            <div class="toggle-label">
+                                <span class="toggle-title">Allow Public Registration</span>
+                                <span class="toggle-desc">Permit general visitors to self register user profiles.</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="setting-allow-reg">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-switch">
+                            <div class="toggle-label">
+                                <span class="toggle-title">System Logs Telemetry</span>
+                                <span class="toggle-desc">Write an audit log entry on general system navigation clicks.</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="setting-log-sys">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-switch">
+                            <div class="toggle-label">
+                                <span class="toggle-title">Send Notifications to Administration</span>
+                                <span class="toggle-desc">Trigger notification triggers on new user creation events.</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="setting-new-user-noti">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div style="margin-top:24px; display:flex; justify-content: flex-end;">
+                            <button class="btn-action" onclick="saveSystemSettings()"><i class="fa-solid fa-floppy-disk"></i> Save Global Configurations</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal to Add/Edit User Account -->
+    <div class="overlay" id="user-modal-overlay" onclick="closeAddUserModal()"></div>
+    <div class="loginform" id="user-modal" style="max-width:500px;">
+        <div style="padding:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border-color); padding-bottom:12px; margin-bottom:20px;">
+                <h2 style="font-size:18px; font-weight:600;" id="user-modal-title">Register New Account</h2>
+                <button onclick="closeAddUserModal()" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+            </div>
+            <form id="user-modal-form" onsubmit="handleUserFormSubmit(event)">
+                <input type="hidden" id="user-form-id">
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Full Name</label>
+                    <input type="text" id="user-form-name" placeholder="John Doe" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-md);">
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Email Address</label>
+                    <input type="email" id="user-form-email" placeholder="john@example.com" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-md);">
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Temporary Password</label>
+                    <input type="password" id="user-form-password" placeholder="Min 6 characters" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-md);">
+                </div>
+                <div class="form-grid" style="grid-template-columns:1fr 1fr; margin-bottom:20px;">
+                    <div class="form-group">
+                        <label>Security Role</label>
+                        <select id="user-form-role" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-md);">
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Viewer">Viewer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Status</label>
+                        <select id="user-form-status" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-md);">
+                            <option value="Active">Active</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:12px;">
+                    <button type="button" class="btn-action btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+                    <button type="submit" class="btn-action">Save Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- theme logic and search engine links -->
+    <script src="../assets/js/theme.js"></script>
+
+    <!-- Dashboard Interactive JavaScript -->
+    <script>
+        // Check session role clearance immediately
+        const activeUser = db.getCurrentUser();
+        if (!activeUser || (activeUser.role !== 'Admin' && activeUser.role !== 'Editor')) {
+            alert('Access Denied. Admins and Editors only.');
+            window.location.href = '../index.html';
+        }
+
+        // Restrict screens based on Role permissions
+        function checkSidebarRoleAccess() {
+            const role = activeUser.role;
+            // Admin gets all. Editor does not get Users, Roles, Settings.
+            if (role === 'Editor') {
+                document.getElementById('side-users').style.display = 'none';
+                document.getElementById('side-roles').style.display = 'none';
+                document.getElementById('side-settings').style.display = 'none';
+            }
+        }
+        checkSidebarRoleAccess();
+
+        // Handle tabs clicks
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetTabId = item.getAttribute('data-tab');
+                
+                // Toggle sidebar active selection
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                // Toggle views panel
+                document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                    tab.classList.remove('active-tab');
+                });
+                document.getElementById(targetTabId).classList.add('active-tab');
+
+                // Load tab data
+                loadTabContent(targetTabId);
+
+                // Close sidebar on mobile
+                document.getElementById('sidebar-nav').classList.remove('open');
+            });
+        });
+
+        // Sidebar Toggle button on Mobile
+        document.getElementById('sidebar-toggle').addEventListener('click', () => {
+            document.getElementById('sidebar-nav').classList.toggle('open');
+        });
+
+        // Parse query parameter to auto open specific tab (e.g. ?tab=profile)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTab = urlParams.get('tab');
+        if (urlTab) {
+            const sideBtn = document.querySelector(`.sidebar-item[data-tab="tab-${urlTab}"]`);
+            if (sideBtn && sideBtn.style.display !== 'none') {
+                setTimeout(() => sideBtn.click(), 100);
+            }
+        }
+
+        // Loader dispatcher for tabs
+        function loadTabContent(tabId) {
+            if (tabId === 'tab-overview') {
+                renderOverviewDashboard();
+            } else if (tabId === 'tab-users') {
+                renderUsersTable();
+            } else if (tabId === 'tab-roles') {
+                renderRoleMatrix();
+            } else if (tabId === 'tab-reports') {
+                renderReportsTable();
+            } else if (tabId === 'tab-logs') {
+                renderLogsTable();
+            } else if (tabId === 'tab-notifications') {
+                renderNotificationsTable();
+            } else if (tabId === 'tab-upload') {
+                renderFilesTable();
+            } else if (tabId === 'tab-profile') {
+                renderProfileForm();
+            } else if (tabId === 'tab-settings') {
+                renderSettingsForm();
+            }
+        }
+
+        // Initialize default view
+
+        // Variables for pagination
+        let usersCurrentPage = 1;
+        const usersPageSize = 5;
+        let logsCurrentPage = 1;
+        const logsPageSize = 8;
+
+        /* ================= OVERVIEW PAGE RENDERING ================= */
+        let telemetryChart, logsChart;
+
+        function renderOverviewDashboard() {
+            const analytics = db.getAnalytics();
+            
+            // Set stats values
+            document.getElementById('stat-total-users').textContent = analytics.totalUsers;
+            document.getElementById('stat-total-visits').textContent = analytics.visitorCount.toLocaleString();
+            document.getElementById('stat-total-reports').textContent = analytics.totalReports;
+            document.getElementById('stat-total-files').textContent = analytics.totalFiles;
+
+            // Render Recent security logs inside overview table
+            const tbody = document.getElementById('overview-recent-logs');
+            tbody.innerHTML = '';
+            analytics.recentActivities.forEach(log => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${log.type}</b></td>
+                        <td>${log.user}</td>
+                        <td>${log.action}</td>
+                        <td style="color:var(--text-muted); font-size:12px;">${new Date(log.timestamp).toLocaleTimeString()}</td>
+                    </tr>
+                `;
+            });
+
+            // Initialize Charts
+            initTelemetryChart(analytics);
+            initLogsChart(analytics);
+        }
+
+        function initTelemetryChart(analytics) {
+            const ctx = document.getElementById('telemetryChart').getContext('2d');
+            if (telemetryChart) telemetryChart.destroy();
+
+            telemetryChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Visits Telemetry',
+                        data: [4200, 5800, 7100, 9300, 11400, analytics.visitorCount],
+                        borderColor: '#0f62fe',
+                        backgroundColor: 'rgba(15, 98, 254, 0.05)',
+                        borderWidth: 2.5,
+                        fill: true,
+                        tension: 0.35
+                    }, {
+                        label: 'Security Logs',
+                        data: [15, 30, 22, 45, 38, db.getLogs().length],
+                        borderColor: '#da1e28',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [5, 5],
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { family: 'Inter' } } }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { border: { dash: [5, 5] } }
+                    }
+                }
+            });
+        }
+
+        function initLogsChart(analytics) {
+            const ctx = document.getElementById('logsChart').getContext('2d');
+            if (logsChart) logsChart.destroy();
+
+            logsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['System', 'Auth', 'Action'],
+                    datasets: [{
+                        data: [analytics.logsBreakdown.System, analytics.logsBreakdown.Auth, analytics.logsBreakdown.Action],
+                        backgroundColor: ['#0f62fe', '#f1c21b', '#24a148'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        /* ================= USER MANAGEMENT RENDERING ================= */
+        function renderUsersTable() {
+            const users = db.getUsers();
+            const searchQuery = document.getElementById('user-search').value.toLowerCase();
+            const roleFilter = document.getElementById('user-filter-role').value;
+            const statusFilter = document.getElementById('user-filter-status').value;
+
+            // Filter users
+            let filtered = users.filter(u => {
+                const matchSearch = u.name.toLowerCase().includes(searchQuery) || u.email.toLowerCase().includes(searchQuery);
+                const matchRole = roleFilter === 'all' || u.role === roleFilter;
+                const matchStatus = statusFilter === 'all' || u.status === statusFilter;
+                return matchSearch && matchRole && matchStatus;
+            });
+
+            // Pagination calculations
+            const totalItems = filtered.length;
+            const totalPages = Math.ceil(totalItems / usersPageSize) || 1;
+            if (usersCurrentPage > totalPages) usersCurrentPage = totalPages;
+            
+            const startIdx = (usersCurrentPage - 1) * usersPageSize;
+            const pageItems = filtered.slice(startIdx, startIdx + usersPageSize);
+
+            // Table updates
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+
+            if (pageItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:20px;">No registered accounts match filters.</td></tr>`;
+            } else {
+                pageItems.forEach(u => {
+                    const badgeRoleClass = `badge-${u.role.toLowerCase()}`;
+                    const badgeStatusClass = u.status === 'Active' ? 'badge-active' : 'badge-inactive';
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><code>${u.id.substring(0, 5)}</code></td>
+                            <td><b>${u.name}</b></td>
+                            <td>${u.email}</td>
+                            <td><span class="badge ${badgeRoleClass}">${u.role}</span></td>
+                            <td><span class="badge ${badgeStatusClass}">${u.status}</span></td>
+                            <td style="color:var(--text-muted);">${u.created_at}</td>
+                            <td>
+                                <button class="btn-action btn-secondary" onclick="openEditUserModal('${u.id}')" style="padding: 4px 8px; font-size:11px;"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action btn-danger" onclick="handleDeleteUser('${u.id}')" style="padding: 4px 8px; font-size:11px; margin-left:4px;"><i class="fa-solid fa-user-xmark"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // Pagination Controls
+            document.getElementById('users-page-info').textContent = `Showing index ${startIdx+1}-${Math.min(startIdx+usersPageSize, totalItems)} of ${totalItems}`;
+            
+            const btnPrev = document.getElementById('users-btn-prev');
+            const btnNext = document.getElementById('users-btn-next');
+            
+            btnPrev.disabled = usersCurrentPage === 1;
+            btnNext.disabled = usersCurrentPage === totalPages;
+
+            btnPrev.onclick = () => { usersCurrentPage--; renderUsersTable(); };
+            btnNext.onclick = () => { usersCurrentPage++; renderUsersTable(); };
+        }
+
+        function openAddUserModal() {
+            document.getElementById('user-modal-title').textContent = 'Register New Account';
+            document.getElementById('user-modal-form').reset();
+            document.getElementById('user-form-id').value = '';
+            document.getElementById('user-form-email').disabled = false;
+            document.getElementById('user-form-email').style.background = '#ffffff';
+            document.getElementById('user-form-email').style.cursor = 'text';
+
+            document.getElementById('user-modal-overlay').classList.add('showoverlay');
+            document.getElementById('user-modal').classList.add('showloginform');
+        }
+
+        function openEditUserModal(id) {
+            const user = db.getUsers().find(u => u.id === id);
+            if (!user) return;
+
+            document.getElementById('user-modal-title').textContent = `Edit User: ${user.name}`;
+            document.getElementById('user-form-id').value = user.id;
+            document.getElementById('user-form-name').value = user.name;
+            document.getElementById('user-form-email').value = user.email;
+            document.getElementById('user-form-email').disabled = true;
+            document.getElementById('user-form-email').style.background = '#f1f5f9';
+            document.getElementById('user-form-email').style.cursor = 'not-allowed';
+            document.getElementById('user-form-password').value = ''; // Blank password means unchanged
+            document.getElementById('user-form-role').value = user.role;
+            document.getElementById('user-form-status').value = user.status;
+
+            document.getElementById('user-modal-overlay').classList.add('showoverlay');
+            document.getElementById('user-modal').classList.add('showloginform');
+        }
+
+        function closeAddUserModal() {
+            document.getElementById('user-modal-overlay').classList.remove('showoverlay');
+            document.getElementById('user-modal').classList.remove('showloginform');
+        }
+
+        function handleUserFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('user-form-id').value;
+            const name = document.getElementById('user-form-name').value;
+            const email = document.getElementById('user-form-email').value;
+            const password = document.getElementById('user-form-password').value;
+            const role = document.getElementById('user-form-role').value;
+            const status = document.getElementById('user-form-status').value;
+
+            if (id) {
+                // Edit
+                const updates = { name, role, status };
+                if (password) updates.password = password;
+                const res = db.updateUser(id, updates);
+                if (res.success) {
+                    showToast('User account updated successfully!', 'success');
+                    closeAddUserModal();
+                    renderUsersTable();
+                } else {
+                    showToast(res.error, 'danger');
+                }
+            } else {
+                // Add
+                const res = db.addUser({ name, email, password, role, status });
+                if (res.success) {
+                    showToast('New user account registered successfully!', 'success');
+                    closeAddUserModal();
+                    renderUsersTable();
+                } else {
+                    showToast(res.error, 'danger');
+                }
+            }
+        }
+
+        function handleDeleteUser(id) {
+            if (id === activeUser.id) {
+                showToast('You cannot delete your own logged-in account!', 'warning');
+                return;
+            }
+            if (confirm('Are you sure you want to delete this user profile? This cannot be undone.')) {
+                const res = db.deleteUser(id);
+                if (res.success) {
+                    showToast('User account deleted successfully.', 'success');
+                    renderUsersTable();
+                } else {
+                    showToast(res.error, 'danger');
+                }
+            }
+        }
+
+        /* ================= ROLE MATRIX RENDERING ================= */
+        function renderRoleMatrix() {
+            const roles = db.getRoles();
+            const modules = ['dashboard', 'users', 'roles', 'reports', 'logs', 'settings', 'upload'];
+            
+            const tbody = document.getElementById('role-matrix-body');
+            tbody.innerHTML = '';
+
+            modules.forEach(mod => {
+                const checkedAdmin = roles.find(r => r.name === 'Admin').permissions[mod] ? 'checked' : '';
+                const checkedEditor = roles.find(r => r.name === 'Editor').permissions[mod] ? 'checked' : '';
+                const checkedViewer = roles.find(r => r.name === 'Viewer').permissions[mod] ? 'checked' : '';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><span style="text-transform: capitalize;"><b>${mod} Module</b></span></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" data-role="Admin" data-module="${mod}" ${checkedAdmin} ${mod==='roles' || mod==='settings' ? 'disabled' : ''}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" data-role="Editor" data-module="${mod}" ${checkedEditor}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" data-role="Viewer" data-module="${mod}" ${checkedViewer}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function savePermissionMatrix() {
+            const roles = ['Admin', 'Editor', 'Viewer'];
+            const modules = ['dashboard', 'users', 'roles', 'reports', 'logs', 'settings', 'upload'];
+
+            roles.forEach(r => {
+                const permissions = {};
+                modules.forEach(m => {
+                    const input = document.querySelector(`input[data-role="${r}"][data-module="${m}"]`);
+                    permissions[m] = input ? input.checked : false;
+                });
+                db.updateRolePermissions(r, permissions);
+            });
+
+            showToast('Roles matrix access policies updated successfully.', 'success');
+            renderRoleMatrix();
+        }
+
+        /* ================= REPORTS CENTER RENDERING ================= */
+        function renderReportsTable() {
+            const reports = db.getReports();
+            const tbody = document.getElementById('reports-table-body');
+            tbody.innerHTML = '';
+
+            reports.forEach(r => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><code>${r.id}</code></td>
+                        <td><b>${r.name}</b></td>
+                        <td>${r.category}</td>
+                        <td style="color:var(--text-muted);">${r.date}</td>
+                        <td>${r.author}</td>
+                        <td><span class="badge ${r.status==='Completed' ? 'badge-active' : 'badge-inactive'}">${r.status}</span></td>
+                        <td>
+                            <button class="btn-action btn-secondary" onclick="exportReportData('${r.id}')" style="padding: 4px 8px; font-size:11px;"><i class="fa-solid fa-file-export"></i> Export JSON</button>
+                            <button class="btn-action btn-danger" onclick="handleDeleteReport('${r.id}')" style="padding: 4px 8px; font-size:11px; margin-left:4px;"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('report-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('report-name').value;
+            const category = document.getElementById('report-category').value;
+
+            const res = db.addReport(name, category);
+            if (res.success) {
+                showToast('New report generated successfully.', 'success');
+                document.getElementById('report-form').reset();
+                renderReportsTable();
+            }
+        });
+
+        function handleDeleteReport(id) {
+            if (confirm('Delete this report archive?')) {
+                const res = db.deleteReport(id);
+                if (res.success) {
+                    showToast('Report deleted from repository.', 'success');
+                    renderReportsTable();
+                }
+            }
+        }
+
+        function exportReportData(id) {
+            const report = db.getReports().find(r => r.id === id);
+            if (!report) return;
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(report, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${report.id}_snapshot.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Downloading report snapshot JSON!', 'success');
+        }
+
+        /* ================= AUDIT LOGS RENDERING ================= */
+        function renderLogsTable() {
+            const logs = db.getLogs();
+            const searchQuery = document.getElementById('logs-search').value.toLowerCase();
+            const typeFilter = document.getElementById('logs-filter-type').value;
+
+            let filtered = logs.filter(l => {
+                const matchSearch = l.action.toLowerCase().includes(searchQuery) || l.user.toLowerCase().includes(searchQuery);
+                const matchType = typeFilter === 'all' || l.type === typeFilter;
+                return matchSearch && matchType;
+            });
+
+            const totalItems = filtered.length;
+            const totalPages = Math.ceil(totalItems / logsPageSize) || 1;
+            if (logsCurrentPage > totalPages) logsCurrentPage = totalPages;
+
+            const startIdx = (logsCurrentPage - 1) * logsPageSize;
+            const pageItems = filtered.slice(startIdx, startIdx + logsPageSize);
+
+            const tbody = document.getElementById('logs-table-body');
+            tbody.innerHTML = '';
+
+            if (pageItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">No telemetry logs match filters.</td></tr>`;
+            } else {
+                pageItems.forEach(l => {
+                    let logIcon = 'fa-circle-info';
+                    let logTypeClass = 'badge-editor';
+                    if (l.type === 'System') { logIcon = 'fa-laptop-code'; logTypeClass = 'badge-admin'; }
+                    if (l.type === 'Auth') { logIcon = 'fa-key'; logTypeClass = 'badge-viewer'; }
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><code>#${l.id}</code></td>
+                            <td><span class="badge ${logTypeClass}"><i class="fa-solid ${logIcon}"></i> ${l.type}</span></td>
+                            <td><b>${l.user}</b></td>
+                            <td>${l.action}</td>
+                            <td style="color:var(--text-muted); font-size:12px;">${new Date(l.timestamp).toLocaleString()}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            document.getElementById('logs-page-info').textContent = `Showing index ${startIdx+1}-${Math.min(startIdx+logsPageSize, totalItems)} of ${totalItems}`;
+            
+            const btnPrev = document.getElementById('logs-btn-prev');
+            const btnNext = document.getElementById('logs-btn-next');
+            
+            btnPrev.disabled = logsCurrentPage === 1;
+            btnNext.disabled = logsCurrentPage === totalPages;
+
+            btnPrev.onclick = () => { logsCurrentPage--; renderLogsTable(); };
+            btnNext.onclick = () => { logsCurrentPage++; renderLogsTable(); };
+        }
+
+        function clearSystemAuditLogs() {
+            if (confirm('Delete all audit trail history? This action is audited!')) {
+                db.clearLogs();
+                showToast('Audit trail purged.', 'warning');
+                renderLogsTable();
+            }
+        }
+
+        /* ================= NOTIFICATIONS ENGINE ================= */
+        function renderNotificationsTable() {
+            const list = db.getNotifications();
+            const tbody = document.getElementById('notifications-table-body');
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No custom alerts broadcasted yet.</td></tr>`;
+            } else {
+                list.forEach(n => {
+                    const badgeClass = n.type === 'danger' ? 'badge-inactive' : (n.type === 'success' ? 'badge-active' : 'badge-editor');
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="color:var(--text-muted);">${n.date}</td>
+                            <td><span class="badge ${badgeClass}">${n.type.toUpperCase()}</span></td>
+                            <td>${n.message}</td>
+                            <td>${n.read ? '<span style="color:var(--text-muted);">Read</span>' : '<b>Unread</b>'}</td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        document.getElementById('notification-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('noti-message').value;
+            const type = document.getElementById('noti-type').value;
+
+            db.addNotification(msg, type);
+            showToast('System wide notification broadcasted!', 'success');
+            document.getElementById('notification-form').reset();
+            renderNotificationsTable();
+        });
+
+        /* ================= FILE UPLOAD SYSTEM ================= */
+        function renderFilesTable() {
+            const files = db.getFiles();
+            const tbody = document.getElementById('files-table-body');
+            tbody.innerHTML = '';
+
+            if (files.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">No local storage file logs uploaded yet.</td></tr>`;
+            } else {
+                files.forEach(f => {
+                    let fIcon = 'fa-file-lines';
+                    if (f.type.startsWith('image/')) fIcon = 'fa-file-image';
+                    if (f.type === 'application/pdf') fIcon = 'fa-file-pdf';
+                    if (f.type === 'application/json') fIcon = 'fa-file-code';
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><i class="fa-solid ${fIcon}" style="color:var(--primary); margin-right:8px; font-size:16px;"></i> <b>${f.name}</b></td>
+                            <td style="color:var(--text-secondary);">${f.type || 'unknown'}</td>
+                            <td style="color:var(--text-muted);">${Math.round(f.size/1024)} KB</td>
+                            <td style="color:var(--text-muted);">${f.uploaded_at}</td>
+                            <td>
+                                ${f.preview ? `<button class="btn-action btn-secondary" onclick="openFilePreview('${f.id}')" style="padding: 4px 8px; font-size:11px;"><i class="fa-solid fa-eye"></i> View</button>` : ''}
+                                <button class="btn-action btn-danger" onclick="handleDeleteFile('${f.id}')" style="padding: 4px 8px; font-size:11px; margin-left:4px;"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        // Setup dropzone styles
+        const dropzone = document.getElementById('dropzone');
+        if (dropzone) {
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('dragover');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length) {
+                    processUploadedFile(files[0]);
+                }
+            });
+        }
+
+        function handleFileSelected(e) {
+            const files = e.target.files;
+            if (files.length) {
+                processUploadedFile(files[0]);
+            }
+        }
+
+        function processUploadedFile(file) {
+            if (file.size > 1024 * 1024) {
+                showToast('Upload failed: File exceeds 1MB development limit.', 'danger');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const base64 = evt.target.result;
+                const res = db.uploadFile(file.name, file.size, file.type, base64);
+                if (res.success) {
+                    showToast('File stored inside system registry!', 'success');
+                    renderFilesTable();
+                }
+            };
+            
+            // Check if text or image to determine read method
+            if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                reader.readAsDataURL(file);
+            } else {
+                reader.readAsText(file);
+            }
+        }
+
+        function handleDeleteFile(id) {
+            if (confirm('Delete this stored document from system?')) {
+                const res = db.deleteFile(id);
+                if (res.success) {
+                    showToast('File deleted.', 'success');
+                    renderFilesTable();
+                }
+            }
+        }
+
+        function openFilePreview(id) {
+            const f = db.getFiles().find(x => x.id === id);
+            if (!f || !f.preview) return;
+
+            const w = window.open();
+            if (f.preview.startsWith('data:')) {
+                w.document.write(`<iframe src="${f.preview}" style="width:100%; height:100%; border:none;"></iframe>`);
+            } else {
+                w.document.write(`<pre style="padding:20px;">${escapeHtml(f.preview)}</pre>`);
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        /* ================= BACKUP & RESTORE ================= */
+        function downloadDatabaseBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(db.exportDatabase());
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `cyberzone_database_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Downloading local JSON system tables backup!', 'success');
+        }
+
+        function restoreDatabaseBackup() {
+            const picker = document.getElementById('backup-file-picker');
+            if (!picker.files.length) {
+                showToast('Please select a valid JSON backup file first.', 'warning');
+                return;
+            }
+
+            const file = picker.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const res = db.importDatabase(e.target.result);
+                if (res.success) {
+                    showToast('Simulated database tables restored successfully! Reloading...', 'success');
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    showToast(res.error, 'danger');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        /* ================= ACCOUNT PROFILE FORM ================= */
+        function renderProfileForm() {
+            document.getElementById('profile-name').value = activeUser.name;
+            document.getElementById('profile-email').value = activeUser.email;
+            document.getElementById('profile-password').value = '';
+        }
+
+        document.getElementById('profile-edit-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('profile-name').value;
+            const password = document.getElementById('profile-password').value;
+
+            const updates = { name };
+            if (password) {
+                if (password.length < 6) {
+                    showToast('Password must be at least 6 characters.', 'danger');
+                    return;
+                }
+                updates.password = password;
+            }
+
+            const res = db.updateUser(activeUser.id, updates);
+            if (res.success) {
+                showToast('Your profile settings updated successfully! Session updated.', 'success');
+                // Sync session storage
+                const sessionUser = { id: activeUser.id, name, email: activeUser.email, role: activeUser.role };
+                sessionStorage.setItem('cyberzone_session', JSON.stringify(sessionUser));
+                setTimeout(() => window.location.reload(), 1000);
+            }
+        });
+
+        /* ================= GLOBAL SYSTEM CONFIG ================= */
+        function renderSettingsForm() {
+            const s = db.getSettings();
+            document.getElementById('setting-allow-reg').checked = s.allowRegistration;
+            document.getElementById('setting-log-sys').checked = s.notifyOnSystemLog; // map to sys logging toggle
+            document.getElementById('setting-new-user-noti').checked = s.notifyOnNewUser;
+        }
+
+        function saveSystemSettings() {
+            const allowRegistration = document.getElementById('setting-allow-reg').checked;
+            const notifyOnSystemLog = document.getElementById('setting-log-sys').checked;
+            const notifyOnNewUser = document.getElementById('setting-new-user-noti').checked;
+
+            db.updateSettings({ allowRegistration, notifyOnSystemLog, notifyOnNewUser });
+            showToast('System configuration saved successfully.', 'success');
+        }
+
+        // Initialize default view
+        renderOverviewDashboard();
+    </script>
+</body>
+</html>

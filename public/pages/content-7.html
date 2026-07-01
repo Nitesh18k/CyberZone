@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-7</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+        * {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        header {
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container {
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero {
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-7.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main {
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);
+            /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        main .profile-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main .profile-container .profile .img-container {
+            width: 6rem;
+            height: 6rem;
+            background: url(../assets/images/c-p-7.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+
+        main .profile-container .profile .text {
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .profile .text h3 {
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+
+        main .content p {
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+
+        main .content .content-img-container {
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-7.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote {
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .tags {
+            display: flex;
+            align-items: center;
+        }
+
+        .tags p {
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+
+        .tags a {
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+        </div>
+        <main>
+            <h2>Exploring Ethical Hacking Techniques for System Security</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Jeason James Ancheta</h3>
+                        <p>September 28, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+            <div class="content">
+                <h4>What is Ethical Hacking?</h4>
+                <p>Ethical hacking, also known as penetration testing or white-hat hacking, involves simulating
+                    cyberattacks on systems to identify potential vulnerabilities. Unlike malicious hackers, ethical
+                    hackers operate with legal permission and aim to enhance security rather than cause harm. Their goal
+                    is to think like a hacker, understanding system weaknesses, and strengthening them against potential
+                    attacks.</p>
+
+
+                <p>These individuals possess a deep understanding of various hacking techniques and methodologies. By
+                    exploiting security flaws in a controlled and authorized environment, ethical hackers provide
+                    valuable insights into a system’s defense mechanisms and help prevent future breaches. Their work
+                    plays a pivotal role in securing networks, applications, and entire infrastructures.</p>
+
+                <h4>Ethical Hacking Techniques</h4>
+
+                <p>Ethical hackers employ a range of techniques to uncover vulnerabilities in systems. Some of the most
+                    effective techniques <br>
+
+                    Reconnaissance (Footprinting): This is the initial phase where information about the target system
+                    is gathered. Ethical hackers use both passive and active reconnaissance techniques to understand the
+                    system’s architecture, IP addresses, open ports, and software versions. This phase is critical, as
+                    it helps in planning subsequent attacks.<br>
+
+                    Scanning and Enumeration: Once the initial information is gathered, ethical hackers scan the target
+                    network or system to identify open ports, services, and weaknesses. Scanning tools such as Nmap or
+                    Nessus are used to probe network vulnerabilities. Enumeration further explores user accounts, shared
+                    resources, and system configurations that can be exploited.<br>
+
+                    Exploitation: In this phase, ethical hackers attempt to exploit identified vulnerabilities. By
+                    simulating real-world cyberattacks like SQL injection, cross-site scripting (XSS), and buffer
+                    overflows, they can demonstrate how malicious actors might breach the system. Tools such as
+                    Metasploit are often used to exploit these vulnerabilities safely in a controlled environment.<br>
+
+                    Post-exploitation: After successfully exploiting a system, ethical hackers assess the impact of the
+                    attack. They investigate what sensitive data was accessed, and whether the system could be used as a
+                    pivot point to launch attacks on other connected systems. This phase helps in understanding the
+                    potential damage a real attack could cause and highlights areas that need immediate attention.</p>
+
+                <div class="content-img-container">
+
+                </div>
+
+                <h4>Importance of System Security</h4>
+
+                <p>System security is crucial for maintaining the integrity, confidentiality, and availability of
+                    information. A breach can result in massive financial loss, damage to reputation, and legal
+                    consequences for businesses. Ethical hacking serves as a defensive tool, ensuring that organizations
+                    remain one step ahead of attackers. Through regular vulnerability assessments and penetration
+                    testing, businesses can prevent unauthorized access, data theft, and other security breaches.</p>
+
+                <h4>The Future of Ethical Hacking</h4>
+
+                <p>The rise of artificial intelligence (AI), machine learning (ML), and the Internet of Things (IoT) has
+                    opened up new avenues for both cyberattacks and defenses. Ethical hackers must stay up to date with
+                    these emerging technologies, adapting their techniques to safeguard systems in an increasingly
+                    interconnected world. </p>
+
+                <blockquote>
+                    “Ethical hacking is not about breaking the law or creating chaos. It’s about thinking like a hacker
+                    to protect systems. With the right mindset and skills, ethical hackers serve as the guardians of the
+                    digital realm, securing systems from unseen dangers.”
+                </blockquote>
+                <p>As organizations continue to digitize their operations, the demand for ethical hackers will grow.
+                    These professionals are essential for protecting critical infrastructure, ensuring that businesses,
+                    governments, and individuals can operate securely in a digital landscape. Ethical hacking is the key
+                    to building a safer, more secure future.</p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

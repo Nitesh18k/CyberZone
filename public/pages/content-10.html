@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-10</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+        * {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        header {
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container {
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero {
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-10.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main {
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);
+            /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        main .profile-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main .profile-container .profile .img-container {
+            width: 6rem;
+            height: 6rem;
+            background: url(../assets/images/c-p-10.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+
+        main .profile-container .profile .text {
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .profile .text h3 {
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+
+        main .content p {
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+
+        main .content .content-img-container {
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-10.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote {
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .tags {
+            display: flex;
+            align-items: center;
+        }
+
+        .tags p {
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+
+        .tags a {
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+        </div>
+        <main>
+            <h2>Social Engineering: Manipulating Human Behavior for Access</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Sunny Nehra</h3>
+                        <p>January 18, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+            <div class="content">
+                <h4>What is Social Engineering?</h4>
+                <p>Social engineering is the art of manipulating human psychology to gain unauthorized access to
+                    information, systems, or physical spaces. Rather than relying on technical hacking skills, attackers
+                    use trickery, persuasion, and deceit to exploit people's trust or emotions. Social engineers take
+                    advantage of human tendencies such as helpfulness, fear, or the desire to avoid conflict, making
+                    individuals more likely to comply with their requests.
+                </p>
+
+                <p>The success of social engineering attacks is rooted in human error, not technology failure. These
+                    attacks can be incredibly difficult to detect because they appear to be legitimate interactions
+                    between users. For this reason, even the most secure systems can be compromised if individuals
+                    within an organization are successfully manipulated.
+                </p>
+
+                <h4>Common Social Engineering Techniques</h4>
+
+                <p>
+                    In the ever-evolving world of cybersecurity, where organizations invest heavily in firewalls,
+                    encryption, and intrusion detection systems, one vulnerability remains constantly overlooked: human
+                    behavior. Social engineering is a technique that exploits this weakness by manipulating people into
+                    granting access to systems or sensitive information. Unlike traditional hacking methods, social
+                    engineering doesn’t attack software or hardware—it targets individuals through deception and
+                    psychological manipulation.
+                </p>
+
+                <h4> What is Social Engineering?</h4>
+                <p>
+                    information, systems, or physical spaces. Rather than relying on technical hacking skills, attackers
+                    use trickery, persuasion, and deceit to exploit people's trust or emotions. Social engineers take
+                    advantage of human tendencies such as helpfulness, fear, or the desire to avoid conflict, making
+                    individuals more likely to comply with their requests.
+                </p>
+                <p>
+                    The success of social engineering attacks is rooted in human error, not technology failure. These
+                    attacks can be incredibly difficult to detect because they appear to be legitimate interactions
+                    between users. For this reason, even the most secure systems can be compromised if individuals
+                    within an organization are successfully manipulated.Social engineering is the art of manipulating
+                    human psychology to gain unauthorized access to
+                </p>
+                <div class="content-img-container">
+
+                </div>
+
+                <h4>The Dangers of Social Engineering</h4>
+
+                <p>The biggest danger of social engineering lies in its ability to bypass even the most secure technical
+                    defenses. Attackers don’t need to hack into a system if they can trick an employee into giving them
+                    access. A single successful social engineering attack can have far-reaching consequences, including
+                    data breaches, financial loss, identity theft, and reputational damage.
+                </p>
+
+                <h4>Defending Against Social Engineering</h4>
+
+                <p>
+                    In the ever-evolving world of cybersecurity, where organizations invest heavily in firewalls,
+                    encryption, and intrusion detection systems, one vulnerability remains constantly overlooked: human
+                    behavior. Social engineering is a technique that exploits this weakness by manipulating people into
+                    granting access to systems or sensitive information. Unlike traditional hacking methods, social
+                    engineering doesn’t attack software or hardware—it targets individuals through deception and
+                    psychological manipulation.<br><br>
+
+                    The success of social engineering attacks is rooted in human error, not technology failure. These
+                    attacks can be incredibly difficult to detect because they appear to be legitimate interactions
+                    between users. For this reason, even the most secure systems can be compromised if individuals
+                    within an organization are successfully manipulated.<br><br>
+
+                    Phishing: Phishing is one of the most widely used forms of social engineering. In a phishing attack,
+                    the perpetrator sends fraudulent emails or messages that appear to be from a trusted source. The
+                    goal is to trick the recipient into clicking on a malicious link, downloading malware, or providing
+                    sensitive information such as passwords or credit card numbers.<br><br>
+
+                    Pretexting: In this technique, the attacker creates a fabricated scenario (or pretext) to gain the
+                    victim's trust. By pretending to be someone in authority, like an IT support technician or a bank
+                    representative, the attacker persuades the target to share sensitive information, such as login
+                    credentials or account details.<br><br>
+
+                    Baiting: Baiting involves offering something tempting—such as free software downloads, discounts, or
+                    a “found” USB drive—to entice the victim into taking action that compromises their security. Once
+                    the bait is taken, malicious software is installed on the user’s system, giving the attacker access
+                    to their data.<br><br>
+
+                    Tailgating (Piggybacking): This is a physical form of social engineering where an attacker gains
+                    access to restricted areas by following authorized personnel into secure locations. For example,
+                    someone might tailgate into a building by pretending to have forgotten their access card and asking
+                    to be let in.<br><br>
+                </p>
+
+                <blockquote>
+                    “The most advanced firewalls and security systems can be rendered useless if attackers manipulate
+                    the people operating them. Social engineering preys on trust, fear, and emotion—making it a
+                    formidable weapon in the hands of cybercriminals”
+                </blockquote>
+                <p>Social engineering represents one of the greatest threats to modern cybersecurity because it targets
+                    the weakest link: human behavior. With the right blend of psychological manipulation and deceit,
+                    even the most secure systems can be compromised. To defend against social engineering, organizations
+                    must invest in employee education, awareness, and strong verification processes. By fostering a
+                    culture of caution and vigilance, individuals can be better prepared to recognize and thwart these
+                    attacks, ultimately strengthening the organization’s overall security posture.
+                </p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

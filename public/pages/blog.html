@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Services - Cyber Zone</title>
+
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link rel="stylesheet" href="../assets/css/blog.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+
+<body>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li class="active"><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search articles...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Log-in / sign-up</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Posts -->
+    <section class="post container">
+        <!-- Post Box 1 -->
+        <div class="post-box hacking">
+            <div class="wrapper">
+                <img src="../assets/images/card-1.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D.png" class="character" />
+            <h2 class="category">Hacking</h2>
+            <a href="content-1.html" class="post-title">
+                Cybersecurity Experts Prevent Malware Attacks Successfully Online
+            </a>
+            <span class="post-date">18 Jan 2024</span>
+            <p class="post-decription">Cybersecurity Experts Prevent Malware Attacks Successfully
+                Online through Advanced Threat Detection and Response Strategies.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Red Teamer</span>
+            </div>
+        </div>
+        <!-- Post Box 2 -->
+        <div class="post-box trends">
+            <div class="wrapper">
+                <img src="../assets/images/card-2.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D2.png" class="character" />
+            <h2 class="category">Trends</h2>
+            <a href="content-2.html" class="post-title">
+                How AI Helps To Hacker's For Prevent Attacks
+            </a>
+            <span class="post-date">09 Oct 2024</span>
+            <p class="post-decription">AI-powered Systems Analyze Patterns, Identify Vulnerabilities,
+                and Enhance Incident Response to Prevent Sophisticated Cyber Attacks.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">CyberExpert</span>
+            </div>
+        </div>
+        <!-- Post Box 3 -->
+        <div class="post-box security">
+            <div class="wrapper">
+                <img src="../assets/images/card-3.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D4.png" class="character" />
+            <h2 class="category">Security</h2>
+            <a href="content-3.html" class="post-title">
+                Penetration Tester Identifies Vulnerabilities in Network Systems
+            </a>
+            <span class="post-date">19 Sep 2024</span>
+            <p class="post-decription">Authorized Simulated Attacks Reveal Weaknesses, Enabling Proactive
+                Remediation and Strengthening Network Defense Mechanisms.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Blue Teamer</span>
+            </div>
+        </div>
+    </section>
+    <section class="post container">
+        <!-- Post Box 4 -->
+        <div class="post-box hacking">
+            <div class="wrapper">
+                <img src="../assets/images/card-4.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D3.png" class="character" />
+            <h2 class="category">Hacking</h2>
+            <a href="content-4.html" class="post-title">
+                Stay Safe from Phishing Scams and Attacks
+            </a>
+            <span class="post-date">19 Sep 2024</span>
+            <p class="post-decription">Verify Sender Authenticity, Be Cautious
+                of Suspicious Links, and Use Strong Passwords to Avoid Phishing.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Red Teamer</span>
+            </div>
+        </div>
+        <!-- Post Box 5 -->
+        <div class="post-box trends">
+            <div class="wrapper">
+                <img src="../assets/images/card-5.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D5.png" class="character" />
+            <h2 class="category">Trends</h2>
+            <a href="content-5.html" class="post-title">
+                How Public Wi-Fi Can Be Harmful
+            </a>
+            <span class="post-date">09 Oct 2024</span>
+            <p class="post-decription">Unsecured Connections Expose Data to Hackers, Malware,
+                and Snooping, Compromising Sensitive Information and Privacy.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">CyberExpert</span>
+            </div>
+        </div>
+        <!-- Post Box 6 -->
+        <div class="post-box security">
+            <div class="wrapper">
+                <img src="../assets/images/card-6.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D6.png" class="character" />
+            <h2 class="category">Security</h2>
+            <a href="content-6.html" class="post-title">
+                How can you keep your mobile phone safe?
+            </a>
+            <span class="post-date">18 Jan 2024</span>
+            <p class="post-decription">Use Strong Lock Screens, Install Antivirus Apps, and
+                Avoid Suspicious Downloads to Protect Mobile Data.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Blue Teamer</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="post container">
+        <!-- Post Box 7 -->
+        <div class="post-box hacking">
+            <div class="wrapper">
+                <img src="../assets/images/card-7.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D7.png" class="character" />
+            <h2 class="category">Hacking</h2>
+            <a href="content-7.html" class="post-title">
+                Exploring Ethical Hacking Techniques for System Security
+            </a>
+            <span class="post-date">28 Sep 2024</span>
+            <p class="post-decription">Exploring ethical hacking techniques enhances system security by identifying
+                vulnerabilities and preventing potential breaches.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Red Teamer</span>
+            </div>
+        </div>
+        <!-- Post Box 8 -->
+        <div class="post-box trends">
+            <div class="wrapper">
+                <img src="../assets/images/card-8.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D8.png" class="character" />
+            <h2 class="category">Trends</h2>
+            <a href="content-8.html" class="post-title">
+                Preventing Cyber Attacks with Penetration Testing
+            </a>
+            <span class="post-date">18 Jan 2024</span>
+            <p class="post-decription">Penetration testing identifies system vulnerabilities, helping organizations
+                prevent cyber attacks and improve security.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">CyberExpert</span>
+            </div>
+        </div>
+        <!-- Post Box 9 -->
+        <div class="post-box security">
+            <div class="wrapper">
+                <img src="../assets/images/card-9.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D9.png" class="character" />
+            <h2 class="category">Security</h2>
+            <a href="content-9.html" class="post-title">
+                Understanding Zero-Day Vulnerabilities in Software Systems
+            </a>
+            <span class="post-date">09 Oct 2024</span>
+            <p class="post-decription">Zero-day vulnerabilities are undiscovered software flaws, making systems
+                vulnerable to attacks before patches.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Blue Teamer</span>
+            </div>
+        </div>
+    </section>
+    <section class="post container">
+        <!-- Post Box 10 -->
+        <div class="post-box hacking">
+            <div class="wrapper">
+                <img src="../assets/images/card-10.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D10.png" class="character" />
+            <h2 class="category">Hacking</h2>
+            <a href="content-10.html" class="post-title">
+                Social Engineering: Manipulating Human Behavior for Access
+            </a>
+            <span class="post-date">18 Jan 2024</span>
+            <p class="post-decription">Social engineering exploits human psychology to gain unauthorized access,
+                bypassing technical security measures easily.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Red Teamer</span>
+            </div>
+        </div>
+        <!-- Post Box 11 -->
+        <div class="post-box trends">
+            <div class="wrapper">
+                <img src="../assets/images/card-11.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D11.png" class="character" />
+            <h2 class="category">Trends</h2>
+            <a href="content-11.html" class="post-title">
+                Breaking Encryption: Techniques Used by Hackers Today
+            </a>
+            <span class="post-date">09 Oct 2024</span>
+            <p class="post-decription">Hackers use advanced techniques like brute force, side-channel attacks, and
+                cryptanalysis to break encryption.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">CyberExpert</span>
+            </div>
+        </div>
+        <!-- Post Box 12 -->
+        <div class="post-box security">
+            <div class="wrapper">
+                <img src="../assets/images/card-12.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D12.png" class="character" />
+            <h2 class="category">Security</h2>
+            <a href="content-12.html" class="post-title">
+                Wireless Network Security: Defending Against Common Attacks
+            </a>
+            <span class="post-date">28 Sep 2024</span>
+            <p class="post-decription">Wireless network security protects against common attacks like eavesdropping,
+                spoofing, and unauthorized access.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Blue Teamer</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="post container">
+        <!-- Post Box 13 -->
+        <div class="post-box hacking">
+            <div class="wrapper">
+                <img src="../assets/images/card-13.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D13.png" class="character" />
+            <h2 class="category">Hacking</h2>
+            <a href="content-13.html" class="post-title">
+                Advanced Persistent Threats: A Hacker's Playbook
+            </a>
+            <span class="post-date">09 Oct 2024</span>
+            <p class="post-decription">Advanced Persistent Threats involve stealthy, long-term hacking strategies to
+                infiltrate and exploit target systems.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Red Teamer</span>
+            </div>
+        </div>
+        <!-- Post Box 14 -->
+        <div class="post-box trends">
+            <div class="wrapper">
+                <img src="../assets/images/card-14.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D14.png" class="character" />
+            <h2 class="category">Trends</h2>
+            <a href="content-14.html" class="post-title">
+                Malware Analysis: Uncovering Hidden Threats in Code
+            </a>
+            <span class="post-date">18 Jan 2024</span>
+            <p class="post-decription">Malware analysis identifies malicious code, uncovering hidden threats that
+                compromise systems and steal data.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">CyberExpert</span>
+            </div>
+        </div>
+        <!-- Post Box 15 -->
+        <div class="post-box security">
+            <div class="wrapper">
+                <img src="../assets/images/card-15.jpeg" alt="" class="post-img">
+            </div>
+            <img src="../assets/images/card-3D15.png" class="character" />
+            <h2 class="category">Security</h2>
+            <a href="content-15.html" class="post-title">
+                Exploring Ransomware Attacks and Defense Strategies
+            </a>
+            <span class="post-date">19 Sep 2024</span>
+            <p class="post-decription">Ransomware attacks encrypt victim data, demanding payment; defense strategies
+                include backups and strong security measures.</p>
+            <!-- Profile -->
+            <div class="profile">
+                <img src="../assets/images/profile.png" alt="" class="profile-img">
+                <span class="profile-name">Blue Teamer</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- footer -->
+    <footer>
+        <div class="row" style="margin-left:80px;">
+            <div class="col">
+                <img src="../assets/images/footer.png" class="logo" width="100px" height="70px" alt="logo">
+                <p>Welcome to Cyber-Zone! Explore insightful blogs on
+                    Cyber Security and IT trends, stay updated on the latest
+                    technologies, and enhance your digital security knowledge.</p>
+            </div>
+            <div class="col">
+                <h3>Office <div class="underline"></div>
+                </h3>
+                <p>CYBER-COLONY</p>
+                <p>Hacker's Street, Near Security Complex</p>
+                <p>PIN = 127 : 0 : 0 : 1, INDIA</p>
+                <p class="email-id">anonymous666@gmail.com</p>
+                <h4>+91-6664443330<h4>
+            </div>
+            <div class="col">
+                <h3>Links <div class="underline"></div>
+                </h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Newslatter <div class="underline"></div>
+                </h3>
+                <form>
+                    <a href="mailto:your_email@example.com"><i class="fa-solid fa-envelope"></i></a>
+                    <input type="email" placeholder="email..." required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/_nitesh_1809/profilecard/?igsh=cWtvYnlsMWsxb3Nw"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/nitesh-sharma-7831a9233?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.snapchat.com/add/naksh_1809?share_id=vyYUsqpRPJI&locale=en-IN"><i class="fa-brands fa-snapchat"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-left:40px;">
+        <p class="copy">Cyber Zone © 2024 - All Right Reserved</p>
+    </footer>
+</body>
+
+</html>

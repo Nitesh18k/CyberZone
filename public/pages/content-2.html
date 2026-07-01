@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+        *{
+            padding-top: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-size: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+        h1{
+            font-size: 1.9rem;
+        }
+        p{
+            font-size: 1.2rem;
+        }
+
+        header{
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container{
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero{
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-2.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main{
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);  /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2{
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        main .profile-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main .profile-container .profile .img-container{
+            width: 6rem;
+            height:  6rem;
+            background: url(../assets/images/c-p-2.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+        main .profile-container .profile .text{
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .profile .text h3{
+            text-transform: uppercase;
+        }
+        .btn{
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+        main .content p{
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4{
+            font-size: 1.6rem;
+            font-weight: 600;
+            color:black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+        main .content .content-img-container{
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-2.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote{
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+        .tags{
+            display: flex;
+            align-items: center;
+        }
+        .tags p{
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+        .tags a{
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+
+        </div>
+
+        <main>
+            <h2>How AI Helps Hackers to Prevent Attacks</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Adrian Lamo</h3>
+                        <p>October 09, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+
+            <div class="content">
+                <p>Artificial Intelligence (AI) is revolutionizing various industries, including cybersecurity. While AI is commonly 
+                    associated with defense mechanisms in cybersecurity, it is also a tool that hackers are beginning to leverage. 
+                    Hackers have recognized the potential of AI to increase the efficiency and effectiveness of their malicious activities, 
+                    making it a double-edged sword in the fight against cybercrime.</p>
+
+                 <p>This blog explores how hackers use AI to prevent detection during attacks, how defenders can counter these 
+                    strategies, and why continuous innovation is necessary to stay ahead in the cybersecurity race.</p>
+
+                 <p>Social engineering is one of the most effective tactics used by hackers to exploit human behavior and gain 
+                    unauthorized access to systems or data. With AI, hackers can now automate and enhance social engineering attacks 
+                    on a larger scale. AI can be used to analyze vast amounts of data from social media, emails, and other online interactions 
+                    to create highly convincing phishing attacks.</p>
+
+                 <h4>AI-Driven Automation: A Powerful Tool for Hackers</h4>
+
+                 <p>One of the most significant ways hackers are leveraging AI is through automation. Just as cybersecurity experts 
+                    use AI to scan for threats and protect networks, hackers are using it to automate the process of breaching defenses.
+                    AI algorithms can scan vast networks for vulnerabilities much faster than any human, allowing hackers to identify weak 
+                    points in security systems with minimal effort.</p>
+                
+                 <div class="content-img-container">
+
+
+                 </div>
+
+                 <h4>AI and Machine Learning in Malware Creation</h4>
+
+                 <p>AI is also helping hackers create more advanced and resilient malware. Traditional malware relies on specific, 
+                    hard-coded behaviors to infect systems, making it relatively easy for cybersecurity professionals to identify 
+                    and counter. However, AI-powered malware is more adaptive, capable of changing its behavior to evade detection.</p>
+
+                 <h4>AI for Evasion and Mimicking Human Behavior</h4>
+
+                 <p>Another key application of AI for hackers is its ability to evade detection. Many modern cybersecurity systems 
+                    rely on behavioral analysis to detect anomalies in network traffic or user behavior. AI-driven attacks can mimic 
+                    regular traffic or user actions, blending into the background and remaining undetected for longer periods. This allows 
+                    hackers to remain inside networks, gathering valuable information and launching attacks at opportune moments.</p>
+
+                 <blockquote>
+                    “Cybersecurity is not just about tools and technology, but also about people, processes, and proactive defense strategies. 
+                    Experts are constantly adapting to outsmart cybercriminals and protect the digital world from evolving malware threats. 
+                    In this battle, vigilance and knowledge are our strongest weapons.”
+                 </blockquote>
+
+                 <h4>AI-Powered Defensive Measures for Hackers</h4>
+                 <p>Interestingly, hackers are also using AI to defend their own operations. Just as cybersecurity experts use AI to 
+                    monitor networks and respond to threats, hackers can deploy AI to protect their command-and-control servers, malware, 
+                    and communications from being disrupted.</p>
+
+                 <p>Cybersecurity professionals must also be proactive in understanding the capabilities of AI-powered hacking tools. 
+                    By simulating AI-driven attacks in controlled environments, they can develop more robust defense strategies and improve 
+                    their ability to detect these advanced threats.</p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+        
+        
+
+
+    
+    
+    
+
+
+</body>
+</html>

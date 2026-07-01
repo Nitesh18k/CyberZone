@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences - Cyber Zone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <style>
+        .settings-container-standalone {
+            max-width: 600px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .settings-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+        }
+
+        .settings-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .settings-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .setting-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .setting-toggle-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .setting-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .setting-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Checkbox slider styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .btn-save-settings {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+            margin-top: 24px;
+        }
+
+        .btn-save-settings:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='../index.html'">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-user-area" id="nav-user-box"></div>
+    </nav>
+
+    <div class="settings-container-standalone">
+        <div class="settings-card">
+            <h2>Personal Preferences</h2>
+            <p>Customize your alert configs and session behaviors.</p>
+            
+            <div class="setting-toggle-row">
+                <div class="setting-info">
+                    <span class="setting-title">Receive Cybersecurity Alerts</span>
+                    <span class="setting-desc">Get system notification alerts on critical threat detections.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="pref-alerts" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-toggle-row">
+                <div class="setting-info">
+                    <span class="setting-title">Enable Interface Audio Hooks</span>
+                    <span class="setting-desc">Play diagnostic audio clicks on system navigation.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="pref-audio">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-toggle-row">
+                <div class="setting-info">
+                    <span class="setting-title">Opt-in Metrics Tracking</span>
+                    <span class="setting-desc">Report anonymous session speeds back to administration.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="pref-telemetry" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <button onclick="savePrefs()" class="btn-save-settings">Save Preferences</button>
+        </div>
+    </div>
+
+    <script src="../assets/js/theme.js"></script>
+    <script>
+        const user = db.getCurrentUser();
+        
+        // Routing logic
+        if (!user) {
+            alert('Please login to configure preferences.');
+            window.location.href = 'login.html';
+        } else if (user.role === 'Admin' || user.role === 'Editor') {
+            // Admins & Editors configure settings inside dashboard.html
+            window.location.href = 'dashboard.html?tab=settings';
+        } else {
+            // Load Viewer preferences from localStorage or set defaults
+            document.getElementById('pref-alerts').checked = localStorage.getItem(`pref_${user.email}_alerts`) !== 'false';
+            document.getElementById('pref-audio').checked = localStorage.getItem(`pref_${user.email}_audio`) === 'true';
+            document.getElementById('pref-telemetry').checked = localStorage.getItem(`pref_${user.email}_telemetry`) !== 'false';
+        }
+
+        function savePrefs() {
+            localStorage.setItem(`pref_${user.email}_alerts`, document.getElementById('pref-alerts').checked);
+            localStorage.setItem(`pref_${user.email}_audio`, document.getElementById('pref-audio').checked);
+            localStorage.setItem(`pref_${user.email}_telemetry`, document.getElementById('pref-telemetry').checked);
+            showToast('Preferences updated successfully.', 'success');
+        }
+    </script>
+</body>
+</html>

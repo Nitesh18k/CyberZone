@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-6</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+        *{
+            padding-top: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-size: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+        h1{
+            font-size: 1.9rem;
+        }
+        p{
+            font-size: 1.2rem;
+        }
+
+        header{
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container{
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero{
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-6.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main{
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);  /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2{
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        main .profile-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main .profile-container .profile .img-container{
+            width: 6rem;
+            height:  6rem;
+            background: url(../assets/images/c-p-6.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+        main .profile-container .profile .text{
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .profile .text h3{
+            text-transform: uppercase;
+        }
+        .btn{
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+        main .content p{
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4{
+            font-size: 1.6rem;
+            font-weight: 600;
+            color:black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+        main .content .content-img-container{
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-6.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote{
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+        .tags{
+            display: flex;
+            align-items: center;
+        }
+        .tags p{
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+        .tags a{
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }      
+
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+        </div>
+        <main>
+            <h2>How to Keep Your Mobile Phone Safe ?</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Johm Draper</h3>
+                        <p>January 18, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+            <div class="content">
+                <p>Our mobile phones have become an integral part of our daily lives, storing everything from personal 
+                    messages and photos to sensitive financial information. As mobile devices become more advanced, 
+                    they also become more attractive targets for cybercriminals. With the increasing number of threats, 
+                    such as malware, phishing attacks, and data theft, protecting your mobile phone has never been more important.</p>
+
+                 <p>Additionally, always enable the automatic lock feature on your phone, which locks the device after a period of inactivity. 
+                    This ensures that even if you forget to lock your phone, it will automatically secure itself, preventing potential misuse</p>
+
+                 <p>When choosing a password, avoid using easily guessable combinations like “1234” or your birthdate. 
+                    Instead, opt for a longer, alphanumeric password that combines letters, numbers, and special characters. 
+                    Two-factor authentication (2FA) adds an extra layer of security by requiring a secondary form of identification, 
+                    such as a one-time code sent to your email or phone.</p>
+
+                 <h4>Stay Cautious of Apps and Downloads</h4>
+
+                 <p>One of the most common ways malware and viruses infect mobile phones is through malicious apps and downloads. 
+                    To protect your phone from harmful software, only download apps from trusted sources like the official Apple 
+                    App Store or Google Play Store. Avoid downloading apps from third-party websites, as they may contain malware 
+                    designed to steal your information or track your activities.</p>
+                
+                 <div class="content-img-container">
+
+                 </div>
+
+                 <h4>Protect Your Data with Encryption and Backups</h4>
+
+                 <p>Your personal data is one of the most valuable assets on your mobile phone, and protecting it is crucial. 
+                    One of the best ways to secure your data is through encryption, which scrambles your data into an unreadable 
+                    format that can only be deciphered with a specific key or password.
+                     Most modern smartphones come with built-in encryption, but it’s important to ensure that 
+                     it’s enabled in your phone’s security settings.</p>
+
+                 <h4></h4>
+
+                 <p>Finally, consider using a remote wipe feature, which allows you to erase all the data on your phone 
+                    if it is lost or stolen. Both iOS and Android offer this functionality, giving you peace of mind knowing 
+                    that your personal information won’t fall into the wrong hands.</p>
+
+                 <blockquote>
+                    “Your mobile phone is the gateway to your personal world. A strong password and biometric authentication are 
+                    not just features; they are essential shields that keep your sensitive information safe from prying eyes.”
+                 </blockquote>
+                  <p>Securing your mobile phone is essential in today’s digital world, where cybercriminals are constantly looking 
+                    for ways to exploit vulnerabilities. By using strong authentication methods, being cautious with apps and downloads, 
+                    and protecting your data with encryption and backups, you can significantly reduce the risk of unauthorized access 
+                    and ensure your phone remains secure. Taking these precautions will help safeguard your personal information and 
+                    provide peace of mind in an increasingly connected world.</p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+        
+        
+
+
+    
+    
+    
+
+
+</body>
+</html>

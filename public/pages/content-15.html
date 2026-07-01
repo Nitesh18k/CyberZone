@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-15</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+        * {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        header {
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container {
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero {
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-15.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main {
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);
+            /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        main .profile-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main .profile-container .profile .img-container {
+            width: 6rem;
+            height: 6rem;
+            background: url(../assets/images/c-p-15.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+
+        main .profile-container .profile .text {
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .profile .text h3 {
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+
+        main .content p {
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+
+        main .content .content-img-container {
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-15.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote {
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .tags {
+            display: flex;
+            align-items: center;
+        }
+
+        .tags p {
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+
+        .tags a {
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+        </div>
+        <main>
+            <h2>Exploring Ransomware Attacks and Defense Strategies</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Anand Prakash</h3>
+                        <p>September 19, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+            <div class="content">
+                <p>Ransomware attacks have surged to the forefront of global cybersecurity threats, disrupting
+                    businesses, governments, and individuals alike. These attacks lock users out of their systems or
+                    encrypt their data, demanding a ransom for its release. The stakes are high, and the consequences
+                    severe. Understanding ransomware attacks and the defense strategies necessary to prevent or mitigate
+                    them is crucial for ensuring the security and resilience of digital infrastructure.</p>
+
+
+                <h4> What is Ransomware?</h4>
+
+                <p>Ransomware is a type of malicious software designed to block access to a computer system or encrypt
+                    files until a ransom is paid. It often spreads through phishing emails, malicious downloads, or
+                    vulnerabilities in outdated software. Once executed, the ransomware begins encrypting files, making
+                    them inaccessible to the user. A message is then displayed, demanding payment—usually in
+                    cryptocurrency—before the files are decrypted.</p>
+
+                <div class="content-img-container">
+
+                </div>
+
+                <h4>Notable Ransomware Attacks</h4>
+
+                <p>WannaCry (2017): One of the most infamous ransomware attacks, WannaCry affected over 230,000
+                    computers in 150 countries, including major corporations and government agencies. It exploited a
+                    vulnerability in Windows systems, encrypting files and demanding payment in Bitcoin. WannaCry caused
+                    an estimated $4 billion in damages globally.</p>
+
+                <h4>How to Defend Against Ransomware Attacks</h4>
+
+                <p>Defending against ransomware requires a multi-layered approach, combining prevention, detection, and
+                    response strategies. While there is no foolproof method, implementing the following measures can
+                    significantly reduce the risk of an attack:<br><br>
+
+                    Regular Backups: The most effective way to safeguard data is by regularly backing it up. Backups
+                    should be stored offline or in a secure cloud environment, separate from the main network. In the
+                    event of an attack, having access to clean, recent backups allows for a quicker recovery without
+                    paying the ransom.<br><br>
+
+                    Employee Training: Many ransomware attacks begin with phishing emails or social engineering tactics.
+                    Training employees to recognize suspicious emails, avoid clicking on unknown links, and report
+                    potential threats can help prevent the initial entry point of a ransomware attack.<br><br>
+
+                    Patch Management: Keeping software and systems up to date is crucial in defending against
+                    ransomware. Many attacks exploit known vulnerabilities in unpatched systems, making patch management
+                    and timely updates essential for reducing risk.</p>
+
+                <blockquote>
+                    “Ransomware is not just a financial threat—it is a severe disruption to business continuity and
+                    critical services. To combat it, organizations need a proactive defense strategy that includes
+                    training, regular backups, and a robust incident response plan.”
+                </blockquote>
+                <p>ransomware attacks are a formidable and growing cyber threat. As these attacks become more
+                    sophisticated and widespread, it is vital for individuals and organizations to understand the
+                    tactics used by attackers and implement strong defense strategies. Prevention, detection, and
+                    response are all essential components of an effective ransomware defense plan, ensuring that the
+                    impact of an attack can be minimized, and recovery can occur swiftly.</p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

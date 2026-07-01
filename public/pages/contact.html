@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Cyber Zone</title>
+
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link rel="stylesheet" href="../assets/css/contact.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+
+<body>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li class="active"><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- contact-us -->
+    <div class="contact-page-wrapper">
+        <div class="contact-form-card">
+            <h1>Contact Us Form</h1>
+            <p style="color:var(--text-muted); font-size:14px; text-align:center; margin-bottom: 24px;">Send us a message and our security response team will be in touch.</p>
+            <form id="contact-form">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="contact-form-group">
+                        <label>First Name</label>
+                        <input type="text" name="firstname" placeholder="First Name" required>
+                    </div>
+                    <div class="contact-form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="lastname" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="contact-form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="john@example.com" required>
+                </div>
+                <div class="contact-form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" name="mobile" placeholder="e.g. +91 9999999999" required>
+                </div>
+                <div class="contact-form-group">
+                    <label>Your Message</label>
+                    <textarea name="message" placeholder="Type your message here..." required></textarea>
+                </div>
+                <input type="submit" value="Send Message" id="button">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById("button");
+            const originalVal = btn.value;
+
+            // Basic validation
+            const mobile = form.mobile.value.trim();
+            const email = form.email.value.trim();
+            const firstname = form.firstname.value.trim();
+            const message = form.message.value.trim();
+
+            if (firstname.length < 2) {
+                showToast('First name must be at least 2 characters.', 'warning');
+                return;
+            }
+            if (mobile.length < 8) {
+                showToast('Please enter a valid mobile number.', 'warning');
+                return;
+            }
+
+            btn.value = "Sending...";
+            btn.disabled = true;
+
+            // Simulate successful form submission locally
+            setTimeout(() => {
+                btn.value = originalVal;
+                btn.disabled = false;
+                showToast('Message sent successfully! We will contact you soon.', 'success');
+                
+                // Audited action to localStorage database logs
+                if (window.db) {
+                    window.db.addLog('Action', email, `Contact form query from ${firstname}: "${message.substring(0, 35)}..."`);
+                }
+                form.reset();
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+        *{
+            padding-top: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-size: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+        h1{
+            font-size: 1.9rem;
+        }
+        p{
+            font-size: 1.2rem;
+        }
+
+        header{
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container{
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero{
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-1.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main{
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);  /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2{
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        main .profile-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main .profile-container .profile .img-container{
+            width: 6rem;
+            height:  6rem;
+            background: url(../assets/images/c-p-1.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+        main .profile-container .profile .text{
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .profile .text h3{
+            text-transform: uppercase;
+        }
+        .btn{
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+        main .content p{
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4{
+            font-size: 1.6rem;
+            font-weight: 600;
+            color:black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+        main .content .content-img-container{
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-1.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote{
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+        .tags{
+            display: flex;
+            align-items: center;
+        }
+        .tags p{
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+        .tags a{
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+        
+        
+        
+
+
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+
+
+        </div>
+
+        <main>
+            <h2>Cybersecurity Experts: The Frontline Defenders Against Online Malware Attacks</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+
+
+                    </div>
+                    <div class="text">
+                        <h3>Kvin Mitnick</h3>
+                        <p>January 18, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+
+            <div class="content">
+                <p>Malware, short for "malicious software," is designed to infiltrate, damage, or disable computers, networks, and systems. 
+                   It can come in various forms, including viruses, worms, ransomware, and spyware. The methods used to deliver malware are 
+                   increasingly sophisticated, ranging from phishing emails to infected websites and malicious downloads. This constantly 
+                   evolving threat landscape makes it challenging for traditional security measures to keep up.</p>
+
+                 <p>Cybersecurity experts focus on identifying these emerging malware threats and developing countermeasures to neutralize 
+                    them before they cause harm. One of their critical tasks is analyzing the behavior of malware to understand how it spreads 
+                    and what vulnerabilities it targets. Armed with this knowledge, experts can create patches, firewalls, and advanced algorithms 
+                    that protect systems from potential breaches.</p>
+
+                 <p>In recent years, Artificial Intelligence (AI) and machine learning have become integral tools in detecting malware patterns and 
+                    predicting future threats. These technologies help experts automate responses to low-level attacks while allowing them to focus 
+                    on more sophisticated threats.</p>
+
+                 <h4>Proactive Defense Strategies</h4>
+
+                 <p>Prevention is always better than cure, and this philosophy holds true in the cybersecurity domain. Rather than waiting for an attack
+                    to occur, cybersecurity experts employ proactive defense strategies to stay ahead of cybercriminals.</p>
+                
+                 <div class="content-img-container">
+
+
+                 </div>
+
+                 <h4>These strategies include:</h4>
+
+                 <p>Regular Security Audits: Experts frequently assess an organization’s system to ensure there are no existing vulnerabilities. 
+                    This process involves checking for outdated software, weak passwords, and unpatched security holes that could be exploited by malware.
+
+                    Threat Intelligence Sharing: Cybersecurity experts collaborate across industries, sharing information about new 
+                    malware threats and attack vectors. This shared knowledge helps build a collective defense, making it harder for malware to spread globally.
+                    
+                    User Education: A large number of malware attacks result from human error, such as clicking on suspicious links or 
+                    downloading unauthorized software. Cybersecurity experts often conduct training sessions to educate users about recognizing 
+                    potential threats and following best security practices.
+                    
+                    Advanced Endpoint Protection: By monitoring devices connected to a network, experts can prevent malware from infiltrating 
+                    through endpoints such as computers, mobile phones, or IoT devices. Endpoint protection systems detect anomalies in real-time, 
+                    enabling a swift response to any suspicious activity.</p>
+
+                 <h4>Incident Response and Recovery</h4>
+
+                 <p>Despite best efforts, no system is entirely immune to malware attacks. This is where incident response and 
+                    recovery come into play. When an attack occurs, cybersecurity experts must act swiftly to minimize damage and 
+                    recover any compromised data.
+
+                    The incident response process typically involves isolating infected systems, removing the malware, and conducting 
+                    a thorough investigation to determine the attack’s origin. Once the threat is neutralized, experts implement stronger 
+                    security measures to prevent future incidents. A key part of this process is learning from the attack, as each incident 
+                    provides valuable insights into the tactics used by cybercriminals.</p>
+
+                 <blockquote>
+                    “Cybersecurity is not just about tools and technology, but also about people, processes, and proactive defense strategies. 
+                    Experts are constantly adapting to outsmart cybercriminals and protect the digital world from evolving malware threats. 
+                    In this battle, vigilance and knowledge are our strongest weapons.”
+                 </blockquote>
+
+                 <h4>Continuous Learning and Adaptation: Key to Success</h4>
+                 <p>One of the biggest challenges cybersecurity experts face is the constantly evolving nature of malware. 
+                    Cybercriminals are continually developing new techniques to bypass security measures, which means that 
+                    experts must stay one step ahead. Continuous learning and adaptation are crucial in this field.</p>
+
+                  <p>Regular training, staying updated with the latest malware trends, and understanding new attack vectors 
+                    are essential for cybersecurity professionals. Additionally, collaborating with other experts in the industry 
+                    through networks and forums helps in sharing knowledge about new threats and the best ways to counter them.</p>
+
+
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+        
+        
+
+
+    
+    
+    
+
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Cyber Zone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <style>
+        .login-page-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .login-card-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .login-card-logo img {
+            height: 38px;
+        }
+
+        .login-card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .login-form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .login-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            outline: none;
+            transition: border var(--transition-fast);
+            background: #f8fafc;
+        }
+
+        .login-form-group input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background var(--transition-fast);
+        }
+
+        .login-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .login-footer-links {
+            margin-top: 24px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+
+        .login-footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-page-container">
+        <div class="login-card">
+            <div class="login-card-logo" onclick="window.location.href='../index.html'">
+                <img src="../assets/images/nav.png" alt="Logo">
+                <span>Cyber Zone</span>
+            </div>
+            <h2>Create Account</h2>
+            <p>Register to explore security resources and trends.</p>
+            
+            <form id="standalone-register-form">
+                <div class="login-form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your full name" required>
+                </div>
+                <div class="login-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="login-form-group">
+                    <label>Password</label>
+                    <input type="password" id="register-password" placeholder="Choose a password (min 6 chars)" required>
+                </div>
+                <button type="submit" class="login-btn" id="register-submit-btn">Sign Up</button>
+            </form>
+
+            <div class="login-footer-links">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/theme.js"></script>
+    <script>
+        // Redirect if already logged in
+        if (db.getCurrentUser()) {
+            const user = db.getCurrentUser();
+            if (user.role === 'Admin' || user.role === 'Editor') {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = '../index.html';
+            }
+        }
+
+        document.getElementById('standalone-register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const btn = document.getElementById('register-submit-btn');
+
+            btn.innerHTML = 'Signing Up...';
+            const res = db.register(name, email, password);
+            btn.innerHTML = 'Sign Up';
+
+            if (res.success) {
+                showToast('Registration successful! Swapped to Sign In.', 'success');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1200);
+            } else {
+                showToast(res.error, 'danger');
+            }
+        });
+    </script>
+</body>
+</html>

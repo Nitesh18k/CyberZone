@@ -1,0 +1,104 @@
+/**
+ * contact.css - Custom Styles for Contact Us Page
+ * Extends theme.css and customizes form alignments.
+ */
+
+body {
+    padding-top: 72px; /* For sticky navbar */
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+.contact-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 24px;
+    min-height: calc(100vh - 150px);
+}
+
+.contact-form-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 40px;
+    max-width: 550px;
+    width: 100%;
+    transition: transform var(--transition-normal);
+}
+
+.contact-form-card:hover {
+    transform: translateY(-2px);
+}
+
+.contact-form-card h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.contact-form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.contact-form-group input,
+.contact-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    outline: none;
+    background: #f8fafc;
+    transition: border var(--transition-fast), background var(--transition-fast);
+}
+
+.contact-form-group input:focus,
+.contact-form-group textarea:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+}
+
+.contact-form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#button {
+    width: 100%;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+    margin-top: 10px;
+}
+
+#button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+#button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Cyber Zone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <style>
+        .reports-container-standalone {
+            max-width: 900px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .reports-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+        }
+
+        .reports-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .reports-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* Table styles copied from dashboard themes */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            margin-top: 16px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 14px 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .data-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .badge-active { background: #e6f6ec; color: var(--success); }
+        .badge-inactive { background: #fdf2f2; color: var(--danger); }
+        .badge {
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn-action {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='../index.html'">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-user-area" id="nav-user-box"></div>
+    </nav>
+
+    <div class="reports-container-standalone">
+        <div class="reports-card">
+            <h2>Archived Cybersecurity Reports</h2>
+            <p>Read-only lookup of generated and released vulnerability assessments.</p>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Report Descriptor Name</th>
+                            <th>Category</th>
+                            <th>Release Date</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="viewer-reports-body">
+                        <!-- reports listing -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/theme.js"></script>
+    <script>
+        const user = db.getCurrentUser();
+        
+        // Routing logic
+        if (!user) {
+            alert('Please login to access cybersecurity reports.');
+            window.location.href = 'login.html';
+        } else if (user.role === 'Admin' || user.role === 'Editor') {
+            // Admins & Editors run full actions in the Dashboard
+            window.location.href = 'dashboard.html?tab=reports';
+        } else {
+            // Viewer reports loading
+            renderViewerReports();
+        }
+
+        function renderViewerReports() {
+            const list = db.getReports();
+            const tbody = document.getElementById('viewer-reports-body');
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:20px;">No public reports released yet.</td></tr>`;
+            } else {
+                list.forEach(r => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><code>${r.id}</code></td>
+                            <td><b>${r.name}</b></td>
+                            <td>${r.category}</td>
+                            <td style="color:var(--text-muted);">${r.date}</td>
+                            <td>${r.author}</td>
+                            <td><span class="badge ${r.status==='Completed' ? 'badge-active' : 'badge-inactive'}">${r.status}</span></td>
+                            <td>
+                                <button class="btn-action" onclick="exportReportData('${r.id}')"><i class="fa-solid fa-download"></i> Download</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        function exportReportData(id) {
+            const report = db.getReports().find(r => r.id === id);
+            if (!report) return;
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(report, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${report.id}_snapshot.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Downloading report snapshot JSON!', 'success');
+        }
+    </script>
+</body>
+</html>

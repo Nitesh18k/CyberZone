@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content-4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /*google fonts*/
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+        *{
+            padding-top: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-size: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+        h1{
+            font-size: 1.9rem;
+        }
+        p{
+            font-size: 1.2rem;
+        }
+
+        header{
+            width: 100%;
+            height: 5rem;
+            background-color: aliceblue;
+            position: fixed;
+            top: 0;
+            z-index: 333;
+        }
+
+        .container{
+            width: 96%;
+            max-width: 117rem;
+            margin: 0 auto;
+        }
+
+        .hero{
+            max-width: 114rem;
+            height: 40rem;
+            background: url(../assets/images/content-4.jpeg) no-repeat center / cover;
+            margin: 5rem auto;
+            box-shadow: var(--shadow-sm);
+            border-radius: 0.6rem;
+        }
+
+        main{
+            width: 100%;
+            max-width: 80rem;
+            background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);  /* content background color */
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-top: -15rem;
+        }
+
+        main h2{
+            font-size: 3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        main .profile-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        main .profile-container .profile{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main .profile-container .profile .img-container{
+            width: 6rem;
+            height:  6rem;
+            background: url(../assets/images/c-p-4.png)no-repeat center center / cover;
+            border-radius: 0.5rem;
+        }
+        main .profile-container .profile .text{
+            margin: 0 1rem;
+            color: black;
+            /*color: #5b5963;*/
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .profile .text h3{
+            text-transform: uppercase;
+        }
+        .btn{
+            display: inline-block;
+            text-transform: capitalize;
+            font-size: 1.2rem;
+            padding: 0.3rem 1.5rem;
+            background-color: #fd735a;
+            border-radius: 0.2rem;
+        }
+        main .content p{
+            color: black;
+            /*color: #5b5963;*/
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        main .content h4{
+            font-size: 1.6rem;
+            font-weight: 600;
+            color:black;
+            /*color: #5b5963;*/
+            margin: 2rem 0;
+        }
+        main .content .content-img-container{
+            width: 100%;
+            height: 35rem;
+            background: url(../assets/images/D-4.jpeg)no-repeat center center / cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        blockquote{
+            font-size: 1.4rem;
+            padding: 1rem 2.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            box-shadow: inset 0.5rem 0 0 var(--primary);
+            background-color: var(--primary-light);
+        }
+        .tags{
+            display: flex;
+            align-items: center;
+        }
+        .tags p{
+            font-size: 1.4rem;
+            text-transform: capitalize;
+        }
+        .tags a{
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+    <header>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a class="navbar-logo" href="../index.html">
+            <img src="../assets/images/nav.png" alt="Logo">
+            <span>Cyber Zone</span>
+        </a>
+        <ul class="navbar-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="navbar-login">
+            <button class="btn-login-nav" onclick="showModal()">Login / Signup</button>
+        </div>
+    </nav>
+
+    <!-- Global Auth Overlay & Modal -->
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="loginform">
+        <div class="container-a" id="container">
+            <div class="form-container sign-up">
+                <form method="POST">
+                    <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button name="btn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form method="POST">
+                    <h1>Sign In</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account credentials</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="#">Forgot Password?</a>
+                    <button name="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <button class="hidden" id="login">Sign In</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <button class="hidden" id="register">Sign Up</button>
+                        <video id="background-video" loop muted autoplay>
+                            <source src="../assets/videos/login-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+    <div class="container">
+        <div class="hero">
+        </div>
+        <main>
+            <h2>Stay Safe from Phishing Scams and Attacks</h2>
+            <div class="profile-container">
+                <div class="profile">
+                    <div class="img-container">
+                    </div>
+                    <div class="text">
+                        <h3>Jonathan James</h3>
+                        <p>September 19, 2024</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <a href="#" class="btn">Passion</a>
+                </div>
+            </div>
+
+            <div class="content">
+                <p>phishing scams have become a prevalent and dangerous threat to individuals and organizations alike.
+                    Phishing attacks are designed to trick users into providing sensitive information, such as usernames,
+                    passwords, or credit card details, by masquerading as legitimate entities. These attacks are often carried 
+                    out via email, text messages, or malicious websites. Despite growing awareness, phishing scams continue to 
+                    evolve, making it critical to stay vigilant and educated about how to recognize and avoid them.</p>
+
+                 <p>Lastly, smishing (phishing via SMS) and vishing (voice phishing) are growing trends, where attackers use text 
+                    messages or phone calls to trick users into providing sensitive information. These types of phishing attacks are 
+                    often designed to create a sense of urgency, encouraging victims to act quickly without thinking critically 
+                    about the situation.</p>
+
+                 <p>In recent years, Artificial Intelligence (AI) and machine learning have become integral tools in detecting malware patterns and 
+                    predicting future threats. These technologies help experts automate responses to low-level attacks while allowing them to focus 
+                    on more sophisticated threats.</p>
+
+                 <h4>Proactive Defense Strategies</h4>
+
+                 <p>Prevention is always better than cure, and this philosophy holds true in the cybersecurity domain. Rather than waiting for an attack
+                    to occur, cybersecurity experts employ proactive defense strategies to stay ahead of cybercriminals.</p>
+                
+                 <div class="content-img-container">
+
+
+                 </div>
+
+                 <h4>These strategies include:</h4>
+
+                 <p>Another type is spear phishing, which is more targeted and personalized. In these attacks, cybercriminals 
+                    tailor their messages specifically to an individual, often using information gathered from social media or 
+                    public records to make the email appear legitimate. Spear phishing attacks are particularly dangerous because 
+                    they can bypass many traditional security measures by appearing highly authentic.</p>
+
+                 <h4>How to Recognize a Phishing Attack</h4>
+
+                 <p>While phishing scams can be convincing, there are several red flags that can help you recognize a phishing 
+                    attempt before it’s too late. One of the most common signs is the use of generic greetings in emails or messages. 
+                    Legitimate organizations that you have an account with will typically address you by name, so if you see a greeting 
+                    like “Dear User” or “Dear Customer,” it could be a sign of phishing.</p>
+
+                 <blockquote>
+                    “Phishing scams are increasingly sophisticated, preying on people’s trust and urgency. Recognizing the signs of 
+                    phishing and exercising caution when providing personal information online are essential steps in protecting yourself 
+                    from these malicious attacks.”
+                 </blockquote>
+
+                 <h4>Tips to Stay Safe from Phishing Scams</h4>
+                 <p>To protect yourself from phishing scams, it’s crucial to follow several key safety practices. First and foremost, 
+                    never click on suspicious links or download attachments from unknown sources. If you receive an unexpected message 
+                    from a company, contact the company directly using a trusted source, such as their official website or customer service 
+                    line, to verify the legitimacy of the communication.</p>
+            </div>
+
+            <div class="tags">
+                <p>tags:</p>
+                <a href="#">web Design</a>
+                <a href="#">Blogging</a>
+            </div>
+        </main>
+    </div>
+        
+        
+
+
+    
+    
+    
+
+
+</body>
+</html>
