@@ -1,55 +1,60 @@
-# Cyber Zone - Security Portal System
+# Cyber Zone - Security Portal Dashboard
 
-Production-ready Cyberzone Security Portal and information disclosure mitigation platform.
+Cyber Zone is a responsive, feature-rich cybersecurity management portal and dashboard designed to visualize security logs, manage roles & permissions, handle file uploads, and showcase simulated database interactions.
 
-## System Folder Structure
-The workspace is organized into a clean modular client-server layout:
-- **`client/`**: The frontend user portal application powered by Vite, HTML5 layouts, Vanilla CSS transitions, and backend API handlers.
-- **`server/`**: Node.js & Express REST API server in TypeScript utilizing Prisma ORM.
-- **`server/prisma/`**: PostgreSQL database schemas and table seed scripts.
-- **`server/uploads/`**: File storage directory for uploads (when running without Cloudinary cloud storage integrations).
-- **`docker-compose.yml`**: Docker orchestration configurations.
+To make hosting and demonstrations seamless, this project runs as a **fully client-side static application**. It utilizes a built-in local database engine that persists data directly inside the browser's `localStorage`, allowing full CRUD operations, role-based access, and login sessions without requiring an external backend or database server.
 
-## How to Get Started
+---
 
-### Run with Docker Compose
-To boot the full-stack database and portal services:
+## 🚀 Key Features
+
+*   📊 **Analytics Dashboard**: Live overview statistics including user counts, visitor count, report statistics, and file storage distribution.
+*   🔒 **Simulated User Authentication**: Registration, secure login, and session persistence (utilizing SHA-256 for passwords).
+*   🎭 **Role-Based Access Control (RBAC)**: Manage and edit permissions for `Admin`, `Editor`, and `Viewer` roles dynamically.
+*   👥 **User Management Dashboard**: Fully functional CRUD panel for creating, editing, suspending, or deleting users.
+*   📁 **File Uploads**: Simulated file uploads (with file size, type tracking, and base64 preview logic) and downloads.
+*   📃 **Report Generation**: Security report panel with creation and deletion of audit/vulnerability records.
+*   💾 **Backup & Restore**: Export the entire state of your simulated database as a JSON file and import it back at any time.
+*   🛡️ **Security Validation Engine**: Simulated security filters to detect and prevent XSS (Cross-Site Scripting) and SQL Injection (SQLi) patterns in input fields.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+*   **Bundler/Dev Server**: [Vite](https://vitejs.dev/)
+*   **Structure**: Semantic HTML5 Layouts
+*   **Styling**: Pure CSS3 with custom CSS variable-based design systems
+*   **State & Database Management**: Simulated `localStorage` relational-style engine inside [db.js](file:///d:/operation%20-%20Copy/public/assets/js/db.js).
+
+---
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) installed (version 18+ recommended).
+
+### Setup and Installation
+
+1. Clone this repository to your local machine.
+2. Navigate to the root directory.
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the App
+
+Start the local Vite development server:
 ```bash
-docker-compose up --build -d
+npm run dev
 ```
-The portal will be active on port `5000` or port `80` (configured in docker-compose).
+The application will open automatically in your browser at `http://localhost:5173`.
 
-### Local Development Start
+### Building for Production
 
-#### 1. Setup Backend (Server)
-1. Navigate to the `server` directory:
-   ```bash
-   cd server
-   ```
-2. Configure `.env` from `.env.example`.
-3. Install dependencies and build/generate database schema:
-   ```bash
-   npm install
-   npx prisma generate
-   npx prisma db push
-   npx prisma db seed
-   ```
-4. Start backend server in development mode:
-   ```bash
-   npm run dev
-   ```
-
-#### 2. Setup Frontend (Client)
-1. Navigate to the `client` directory in a new terminal:
-   ```bash
-   cd client
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start frontend dev server:
-   ```bash
-   npm run dev
-   ```
-4. Navigate to `http://localhost:5173`.
+To build the optimized static assets (ready to be deployed to GitHub Pages, Netlify, Vercel, etc.):
+```bash
+npm run build
+```
+The built assets will be generated in the `dist/` directory.
