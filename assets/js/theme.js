@@ -9,6 +9,41 @@ const pagesFolder = isSubpage ? '' : 'pages/';
  * Manages sessions, responsive navigation, authentication modals, search, and toasts.
  */
 
+function getStaticDemoDb() {
+    if (window.db) return window.db;
+
+    return {
+        getCurrentUser() {
+            const email = localStorage.getItem('cyberzone_demo_user');
+            if (!email) return null;
+            return {
+                id: 'demo-user',
+                name: localStorage.getItem('cyberzone_demo_name') || email.split('@')[0],
+                email,
+                role: 'Viewer'
+            };
+        },
+        login(email, password) {
+            if (!email || !password) return { success: false, error: 'Email and password are required.' };
+            localStorage.setItem('cyberzone_demo_user', email);
+            localStorage.setItem('cyberzone_demo_name', email.split('@')[0]);
+            return { success: true, user: { id: 'demo-user', name: email.split('@')[0], email, role: 'Viewer' } };
+        },
+        register(name, email, password) {
+            if (!name || !email || !password) return { success: false, error: 'Please complete the form.' };
+            localStorage.setItem('cyberzone_demo_user', email);
+            localStorage.setItem('cyberzone_demo_name', name);
+            return { success: true, user: { id: 'demo-user', name, email, role: 'Viewer' } };
+        },
+        logout() {
+            localStorage.removeItem('cyberzone_demo_user');
+            localStorage.removeItem('cyberzone_demo_name');
+            return true;
+        },
+        addLog() { }
+    };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Enforce authorization gate for subpages (Bypassed to allow access to all pages without login)
     /*
@@ -55,7 +90,7 @@ function showToast(message, type = 'info') {
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
+
     let icon = 'fa-info-circle';
     if (type === 'success') icon = 'fa-check-circle';
     if (type === 'danger') icon = 'fa-exclamation-circle';
@@ -85,7 +120,7 @@ function syncNavbarSession() {
     const userArea = document.querySelector('.navbar-login') || document.querySelector('.navbar-user-area');
     if (!userArea) return;
 
-    const currentUser = window.db ? window.db.getCurrentUser() : null;
+    const currentUser = getStaticDemoDb().getCurrentUser();
 
     if (currentUser) {
         // Create user dropdown markup
@@ -118,7 +153,7 @@ function syncNavbarSession() {
         // Toggle dropdown open/close
         const trigger = document.getElementById('user-trigger');
         const menu = document.getElementById('dropdown-menu');
-        
+
         if (trigger && menu) {
             trigger.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -135,8 +170,9 @@ function syncNavbarSession() {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (window.db) {
-                    window.db.logout();
+                const demoDb = getStaticDemoDb();
+                if (demoDb) {
+                    demoDb.logout();
                     showToast('Logged out successfully!', 'success');
                     setTimeout(() => {
                         window.location.href = relativeRoot + 'index.html';
@@ -171,14 +207,14 @@ function setupMobileMenu() {
         toggleBtn.className = 'menu-toggle';
         toggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
         nav.insertBefore(toggleBtn, nav.querySelector('.navbar-search') || nav.querySelector('.navbar-login') || nav.querySelector('.navbar-user-area'));
-        
+
         const links = document.querySelector('.navbar-links');
-        
+
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             links.classList.toggle('show');
-            toggleBtn.innerHTML = links.classList.contains('show') 
-                ? '<i class="fa-solid fa-xmark"></i>' 
+            toggleBtn.innerHTML = links.classList.contains('show')
+                ? '<i class="fa-solid fa-xmark"></i>'
                 : '<i class="fa-solid fa-bars"></i>';
         });
 
@@ -237,8 +273,9 @@ function setupAuthListeners() {
             const email = e.target.email.value;
             const password = e.target.password.value;
 
-            if (window.db) {
-                const res = window.db.register(name, email, password);
+            const demoDb = getStaticDemoDb();
+            if (demoDb) {
+                const res = demoDb.register(name, email, password);
                 if (btn) btn.innerHTML = originalText;
 
                 if (res.success) {
@@ -266,8 +303,9 @@ function setupAuthListeners() {
             const email = e.target.email.value;
             const password = e.target.password.value;
 
-            if (window.db) {
-                const res = window.db.login(email, password);
+            const demoDb = getStaticDemoDb();
+            if (demoDb) {
+                const res = demoDb.login(email, password);
                 if (btn) btn.innerHTML = originalText;
 
                 if (res.success) {
@@ -315,7 +353,7 @@ function performGlobalSearch(query) {
             const title = post.querySelector('.post-title').textContent.toLowerCase();
             const desc = post.querySelector('.post-decription').textContent.toLowerCase();
             const category = post.querySelector('.category').textContent.toLowerCase();
-            
+
             if (title.includes(query) || desc.includes(query) || category.includes(query)) {
                 post.style.display = 'block';
                 matches++;

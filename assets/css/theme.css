@@ -13,25 +13,25 @@
     --danger: #da1e28;
     --warning: #f1c21b;
     --info: #0043ce;
-    
+
     --bg-main: #f8fafc;
     --bg-card: rgba(255, 255, 255, 0.75);
     --border-color: rgba(15, 98, 254, 0.08);
     --border-focus: rgba(15, 98, 254, 0.35);
-    
+
     --text-primary: #1e293b;
     --text-secondary: #475569;
     --text-muted: #64748b;
     --text-white: #ffffff;
-    
+
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --shadow-md: 0 10px 15px -3px rgba(15, 98, 254, 0.03), 0 4px 6px -4px rgba(15, 98, 254, 0.02);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-    
+
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
@@ -57,8 +57,8 @@ body {
 /* Premium Glassmorphism Utility */
 .glass-panel {
     background: var(--bg-card);
-    backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -75,13 +75,16 @@ body {
     width: 8px;
     height: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
@@ -94,8 +97,8 @@ body {
     right: 0 !important;
     height: 72px !important;
     background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
+    backdrop-filter: blur(16px) !important;
     border-bottom: 1px solid var(--border-color) !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -183,7 +186,8 @@ body {
 }
 
 .navbar-search button {
-    display: none; /* Hide default buttons, search works on Enter or dynamic typing */
+    display: none;
+    /* Hide default buttons, search works on Enter or dynamic typing */
 }
 
 /* User Account Area */
@@ -191,6 +195,27 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+.footer-row {
+    margin-left: 80px;
+}
+
+.footer-divider {
+    margin-left: 40px;
+}
+
+.about-intro {
+    padding-top: 50px;
+}
+
+.about-copy {
+    text-align: center;
+    padding: 2px;
+}
+
+.about-title {
+    font-size: 4rem;
 }
 
 .btn-login-nav {
@@ -302,6 +327,7 @@ body {
         opacity: 0;
         transform: translateY(-8px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -323,7 +349,7 @@ body {
     .menu-toggle {
         display: block;
     }
-    
+
     .navbar-links {
         position: fixed;
         top: 72px;
@@ -339,13 +365,14 @@ body {
         transition: left var(--transition-normal);
         z-index: 999;
     }
-    
+
     .navbar-links.show {
         left: 0;
     }
 
     .navbar-search {
-        display: none; /* Hide on mobile navbar track, show in sidebar/mobile view alternatively */
+        display: none;
+        /* Hide on mobile navbar track, show in sidebar/mobile view alternatively */
     }
 }
 
@@ -357,6 +384,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(15, 23, 42, 0.4);
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     z-index: 2000;
     opacity: 0;
@@ -434,11 +462,15 @@ body {
 }
 
 @keyframes showSignUp {
-    0%, 49.99% {
+
+    0%,
+    49.99% {
         opacity: 0;
         z-index: 1;
     }
-    50%, 100% {
+
+    50%,
+    100% {
         opacity: 1;
         z-index: 5;
     }
@@ -614,7 +646,8 @@ body {
 }
 
 .toggle-panel img#background-image {
-    display: none; /* Prefer background video */
+    display: none;
+    /* Prefer background video */
 }
 
 .toggle-panel button.hidden {
@@ -695,6 +728,7 @@ body {
         opacity: 0;
         transform: translateY(16px) scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);

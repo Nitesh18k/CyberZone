@@ -10,7 +10,8 @@
 
 /* Base adjustment */
 body {
-    padding-top: 72px; /* For sticky navbar */
+    padding-top: 72px;
+    /* For sticky navbar */
     background-color: var(--bg-main);
     color: var(--text-primary);
 }
@@ -35,8 +36,8 @@ body {
 
 .carousel-caption {
     background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: var(--radius-lg);
     color: var(--text-primary) !important;
@@ -102,8 +103,8 @@ body {
 .post-box {
     position: relative;
     background: var(--bg-card);
-    backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -161,11 +162,9 @@ body {
 
 .wrapper::after {
     opacity: 0.6;
-    background-image: linear-gradient(
-        to bottom,
-        transparent 50%,
-        rgba(0, 0, 0, 0.8) 100-percent
-    );
+    background-image: linear-gradient(to bottom,
+            transparent 50%,
+            rgba(0, 0, 0, 0.8) 100-percent);
 }
 
 .post-box:hover .wrapper::after {
@@ -408,13 +407,16 @@ footer .copy {
     .carousel-item {
         height: 320px;
     }
+
     .carousel-caption {
         padding: 16px;
         margin: 0 16px 16px;
     }
+
     .carousel-caption h2 {
         font-size: 20px;
     }
+
     .carousel-caption p {
         font-size: 13px;
     }
