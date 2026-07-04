@@ -126,7 +126,7 @@ function initDB() {
         if (migrated) {
             localStorage.setItem(DB_KEY, JSON.stringify(dbState));
         }
-    } catch(e) {
+    } catch (e) {
         localStorage.setItem(DB_KEY, JSON.stringify(DEFAULT_DB_STATE));
     }
 }
@@ -190,26 +190,32 @@ const db = {
     // AUTHENTICATION & SESSIONS
     getCurrentUser() {
         const session = sessionStorage.getItem('cyberzone_session');
-        if (!session) {
-            // Bypass login/registration: Automatically return the default Admin user
-            const database = getDB();
-            const defaultAdmin = database.users.find(u => u.role === 'Admin') || database.users[0];
-            return defaultAdmin;
-        }
-        try {
-            const parsed = JSON.parse(session);
-            // Verify user still exists in DB
-            const database = getDB();
-            const user = database.users.find(u => u.email === parsed.email);
-            if (user && user.status === 'Active') {
-                return user;
+        if (session) {
+            try {
+                const parsed = JSON.parse(session);
+                const database = getDB();
+                const user = database.users.find(u => u.email === parsed.email);
+                if (user && user.status === 'Active') {
+                    return user;
+                }
+                sessionStorage.removeItem('cyberzone_session');
+                return null;
+            } catch (e) {
+                sessionStorage.removeItem('cyberzone_session');
+                return null;
             }
-            // If inactive or deleted, clear session
-            sessionStorage.removeItem('cyberzone_session');
-            return null;
-        } catch (e) {
-            return null;
         }
+
+        const demoUserEmail = localStorage.getItem('cyberzone_demo_user');
+        if (demoUserEmail) {
+            const database = getDB();
+            const matchedUser = database.users.find(u => u.email.toLowerCase() === demoUserEmail.toLowerCase());
+            if (matchedUser && matchedUser.status === 'Active') {
+                return matchedUser;
+            }
+        }
+
+        return null;
     },
 
     login(email, password) {
@@ -222,7 +228,7 @@ const db = {
         }
         const database = getDB();
         const user = database.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-        
+
         if (!user) {
             this.addLog('Auth', email, 'Failed login attempt - User not found');
             return { success: false, error: 'Invalid email or password.' };
@@ -239,7 +245,7 @@ const db = {
         // Save session
         const sessionUser = { id: user.id, name: user.name, email: user.email, role: user.role };
         sessionStorage.setItem('cyberzone_session', JSON.stringify(sessionUser));
-        
+
         // Update visitor count on login
         database.visitorsCount += 1;
         saveDB(database);
@@ -254,6 +260,8 @@ const db = {
             this.addLog('Auth', currentUser.email, 'Logged out successfully');
         }
         sessionStorage.removeItem('cyberzone_session');
+        localStorage.removeItem('cyberzone_demo_user');
+        localStorage.removeItem('cyberzone_demo_name');
         return true;
     },
 
@@ -290,9 +298,9 @@ const db = {
 
         database.users.push(newUser);
         saveDB(database);
-        
+
         this.addLog('Auth', email, `New user registered: ${name}`);
-        
+
         if (database.settings.notifyOnNewUser) {
             this.addNotification(`New user registered: ${name} (${email})`, 'info');
         }
@@ -343,7 +351,7 @@ const db = {
 
         database.users.push(newUser);
         saveDB(database);
-        
+
         const admin = this.getCurrentUser();
         this.addLog('Action', admin ? admin.email : 'Admin', `Created user account: ${safeEmail}`);
         return { success: true, user: newUser };
@@ -507,12 +515,12 @@ const db = {
             timestamp: new Date().toISOString()
         };
         database.logs.unshift(newLog); // Prepend to show latest first
-        
+
         // Limit log size to 200 items for performance
         if (database.logs.length > 200) {
             database.logs.pop();
         }
-        
+
         saveDB(database);
         return newLog;
     },
@@ -592,7 +600,7 @@ const db = {
         saveDB(database);
 
         const user = this.getCurrentUser();
-        this.addLog('Action', user ? user.email : 'System', `Uploaded file: ${name} (${Math.round(size/1024)} KB)`);
+        this.addLog('Action', user ? user.email : 'System', `Uploaded file: ${name} (${Math.round(size / 1024)} KB)`);
         return { success: true, file: newFile };
     },
 
@@ -637,7 +645,7 @@ const db = {
         const database = getDB();
         const users = database.users;
         const logs = database.logs;
-        
+
         // Count totals
         const totalUsers = users.length;
         const visitorCount = database.visitorsCount;

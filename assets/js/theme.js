@@ -38,6 +38,7 @@ function getStaticDemoDb() {
         logout() {
             localStorage.removeItem('cyberzone_demo_user');
             localStorage.removeItem('cyberzone_demo_name');
+            sessionStorage.removeItem('cyberzone_session');
             return true;
         },
         addLog() { }
@@ -54,9 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     */
 
-    // Auto trigger login modal if redirected from a subpage
+    // Auto trigger login modal if redirected from a subpage or first-time visitor
     const params = new URLSearchParams(window.location.search);
-    if (params.get('triggerLogin') === 'true' || params.get('showLogin') === 'true') {
+    const isHomePage = window.location.pathname.endsWith('/index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+    const hasActiveSession = Boolean(getStaticDemoDb().getCurrentUser() || (window.db && window.db.getCurrentUser()));
+
+    if (!hasActiveSession && (params.get('triggerLogin') === 'true' || params.get('showLogin') === 'true' || isHomePage)) {
         setTimeout(() => {
             showModal();
         }, 300);
